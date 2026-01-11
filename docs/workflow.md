@@ -102,7 +102,7 @@ lualatex -interaction=nonstopmode -halt-on-error proof.tex
 ### pdfLaTeX keeps getting used
 
 If building via VS Code LaTeX Workshop, ensure your recipe uses `latexmk` with `-pdflua` and set it as default.
-Example snippet: `agent-workflow/vscode-latex-workshop-settings.json`.
+Example snippet: `docs/vscode-latex-workshop-settings.json`.
 
 ### Fonts "not found"
 

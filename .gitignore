@@ -39,8 +39,11 @@ project/**/build/
 
 # PDFs (generated)
 project/proofs/*.pdf
-project/proofs/deprecated/**/*.pdf
 project/final_pass/build/*.pdf
+archive/proofs/**/*.pdf
+
+# Old local artifact snapshots (do not commit)
+project/deprecated/
 
 # Local font cache / junction
 fonts/

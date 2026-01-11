@@ -9,9 +9,10 @@ TexGraph is a layered LuaLaTeX project for producing a full-length poetry book a
 
 ## Docs
 
-- Agent workflow + build notes: `agent-workflow/WORKFLOW.md`
+- Agent workflow + build notes: `docs/workflow.md`
 - Proof drivers: `project/proofs/README.md`
-- OpenAI cookbook (optional): `OpenAI/RECIPE_BOOK.md`
+
+Style notes (human-readable sources for the regimes) live in `docs/style-notes/`.
 
 ## Preamble
 
