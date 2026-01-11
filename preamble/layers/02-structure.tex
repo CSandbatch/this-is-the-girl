@@ -163,6 +163,19 @@
 % Movements 2+ begin on their own pages.
 \newif\ifTexGraphFirstMovement
 \newcommand{\CycleBegin}{\TexGraphFirstMovementtrue}
+\providecommand{\CyclePartHead}[1]{%
+  \par
+  \medskip
+  \TexGraphOuterLine{\textit{#1}}%
+  \medskip
+}
+\providecommand{\CyclePartHeadTight}[1]{%
+  \par
+  \smallskip
+  \TexGraphOuterLine{\textit{#1}}%
+  \smallskip
+}
+\providecommand{\CycleInterMovementSpace}{\par\vspace{0.75\baselineskip}}
 \newcommand{\CycleMovement}[1]{%
   \ifTexGraphFirstMovement
     \TexGraphFirstMovementfalse

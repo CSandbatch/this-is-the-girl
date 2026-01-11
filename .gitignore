@@ -38,6 +38,7 @@ __pycache__/
 project/**/build/
 
 # PDFs (generated)
+project/*.pdf
 project/proofs/*.pdf
 project/final_pass/build/*.pdf
 archive/proofs/**/*.pdf

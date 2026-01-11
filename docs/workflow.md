@@ -39,7 +39,7 @@ Expected keys:
 TexGraph uses three preamble layers.
 
 - Repo templates: `preamble/layers/`
-- Project wrappers (used by drivers): `project/preambles/`
+- Project wrappers (used by drivers): `project/preamble/`
 
 ### Fetch/update
 

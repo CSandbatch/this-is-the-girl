@@ -17,7 +17,7 @@ Style notes (human-readable sources for the regimes) live in `docs/style-notes/`
 ## Preamble
 
 - Repo templates (3 layers): `preamble/layers/`
-- Project wrappers (3 layers): `project/preambles/`
+- Project wrappers (3 layers): `project/preamble/`
 
 ## Secrets
 
