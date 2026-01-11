@@ -1,0 +1,119 @@
+% =========================================================
+% STYLE — PROOF / REGIME XI (Rimbaudian Fever / Symbolist Breakdown)
+% =========================================================
+% Source: styles/black_mass.txt
+%
+% Body text:
+% - Spectral ExtraLight, 11pt, leading ~1.3A-
+% Opus & section titles:
+% - Playfair Display SC (Regular), letterspacing +10
+% =========================================================
+
+\IfFileExists{\TexGraphFontPath{Spectral-ExtraLight.ttf}}{%
+  \setmainfont{Spectral-ExtraLight.ttf}[
+    Path=\TexGraphFontDir,
+    Ligatures=TeX,
+    ItalicFont=Spectral-ExtraLightItalic.ttf,
+    BoldFont=Spectral-Bold.ttf,
+    BoldItalicFont=Spectral-BoldItalic.ttf
+  ]%
+}{%
+  \IfFontExistsTF{Spectral ExtraLight}{%
+    \setmainfont{Spectral ExtraLight}[Ligatures=TeX]%
+  }{%
+    \IfFileExists{\TexGraphFontPath{Spectral-Regular.ttf}}{%
+      \setmainfont{Spectral-Regular.ttf}[
+        Path=\TexGraphFontDir,
+        Ligatures=TeX,
+        ItalicFont=Spectral-Italic.ttf,
+        BoldFont=Spectral-Bold.ttf,
+        BoldItalicFont=Spectral-BoldItalic.ttf
+      ]%
+    }{%
+      \IfFontExistsTF{Spectral}{%
+        \setmainfont{Spectral}[Ligatures=TeX]%
+      }{%
+        \IfFileExists{\TexGraphFontPath{SourceSerif4-Regular.ttf}}{%
+          \setmainfont{SourceSerif4-Regular.ttf}[
+            Path=\TexGraphFontDir,
+            Ligatures=TeX,
+            ItalicFont=SourceSerif4-Italic.ttf,
+            BoldFont=SourceSerif4-Bold.ttf,
+            BoldItalicFont=SourceSerif4-BoldItalic.ttf
+          ]%
+        }{%
+          \IfFontExistsTF{Source Serif 4}{%
+            \setmainfont{Source Serif 4}[Ligatures=TeX]%
+          }{%
+            \setmainfont{Latin Modern Roman}[Ligatures=TeX]%
+          }%
+        }%
+      }%
+    }%
+  }%
+}%
+
+\AtBeginDocument{%
+  \fontsize{11pt}{14.3pt}\selectfont
+}%
+
+\IfFileExists{\TexGraphFontPath{PlayfairDisplaySC-Regular.ttf}}{%
+  \newfontfamily\OpusTitleFont{PlayfairDisplaySC-Regular.ttf}[
+    Path=\TexGraphFontDir,
+    Ligatures=TeX,
+    LetterSpace=10
+  ]%
+}{%
+  \IfFontExistsTF{Playfair Display SC}{%
+    \newfontfamily\OpusTitleFont{Playfair Display SC}[Ligatures=TeX,LetterSpace=10]%
+  }{%
+    \IfFontExistsTF{Playfair Display}{%
+      \newfontfamily\OpusTitleFont{Playfair Display}[Ligatures=TeX,Letters=SmallCaps,LetterSpace=10]%
+    }{%
+      \IfFileExists{\TexGraphFontPath{AlegreyaSC-Medium.ttf}}{%
+        \newfontfamily\OpusTitleFont{AlegreyaSC-Medium.ttf}[
+          Path=\TexGraphFontDir,
+          Ligatures=TeX,
+          Letters=SmallCaps,
+          LetterSpace=10
+        ]%
+      }{%
+        \IfFontExistsTF{Alegreya SC Medium}{%
+          \newfontfamily\OpusTitleFont{Alegreya SC Medium}[Ligatures=TeX,Letters=SmallCaps,LetterSpace=10]%
+        }{%
+          \newfontfamily\OpusTitleFont{Latin Modern Roman}[Ligatures=TeX,Letters=SmallCaps,LetterSpace=10]%
+        }%
+      }%
+    }%
+  }%
+}%
+
+\newcommand{\OpusName}[1]{{\OpusTitleFont #1}}
+\newcommand{\OpusSectionSubtitle}[1]{{\large\OpusTitleFont #1\par}}
+% Poem blocks: title small caps to outer margin, subtitle to inner margin.
+\newcommand{\PoemTitleFont}{\OpusTitleFont}
+\newcommand{\PoemSubtitleFont}{\itshape}
+
+\newcommand{\PoemHead}[2]{%
+  \par\begingroup
+    \TexGraphOuterLine{\TexGraphFitTitleText{{\PoemTitleFont #1}}}%
+    \if\relax\detokenize{#2}\relax\else
+      \TexGraphInnerLine{\TexGraphFitSubtitleText{{\PoemSubtitleFont #2}}}%
+    \fi
+  \endgroup
+  \vspace{0.75\baselineskip}%
+  \noindent
+}
+
+\newcommand{\CycleHead}[2]{%
+  \par\begingroup
+    \TexGraphOuterLine{\TexGraphFitTitleText{{\OpusName{#1}}}}%
+    \if\relax\detokenize{#2}\relax\else
+      \TexGraphInnerLine{\TexGraphFitSubtitleText{{\PoemSubtitleFont #2}}}%
+    \fi
+  \endgroup
+  \vspace{1.0\baselineskip}%
+  \noindent
+}
+
+\AtBeginEnvironment{stanza}{\raggedright}

@@ -1,0 +1,29 @@
+{
+  "id": "to-the-sea",
+  "title": "To the Sea",
+  "subtitle": "(From *Canto Novo* by Gabriele di'Aunnzio)",
+  "block_type": "multipartpoem",
+  "parent_section": "desir-op-iv",
+  "ordering": "fixed",
+  "movement_count": 3,
+  "movements": [
+    {
+      "order": 1,
+      "path": "01-i",
+      "title": "I",
+      "subtitle": null
+    },
+    {
+      "order": 2,
+      "path": "02-ii",
+      "title": "II",
+      "subtitle": null
+    },
+    {
+      "order": 3,
+      "path": "03-iii",
+      "title": "III",
+      "subtitle": null
+    }
+  ]
+}

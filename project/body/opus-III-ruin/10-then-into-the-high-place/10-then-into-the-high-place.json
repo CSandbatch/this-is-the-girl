@@ -1,0 +1,29 @@
+{
+  "id": "then-into-the-high-place",
+  "title": "Then Into the High Place",
+  "subtitle": null,
+  "block_type": "cycle",
+  "parent_section": "ruin-op-iii",
+  "ordering": "fixed",
+  "movement_count": 3,
+  "movements": [
+    {
+      "order": 1,
+      "path": "01-i",
+      "title": "I",
+      "subtitle": null
+    },
+    {
+      "order": 2,
+      "path": "02-ii",
+      "title": "II",
+      "subtitle": null
+    },
+    {
+      "order": 3,
+      "path": "03-iii",
+      "title": "III",
+      "subtitle": null
+    }
+  ]
+}

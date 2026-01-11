@@ -1,0 +1,9 @@
+{
+  "schema": "schema.back_matter.v1",
+  "items": [
+    "afterword/afterword.json",
+    "acknowledgements/acknowledgements.json",
+    "colophon/colophon.json",
+    "appendix/appendix.json"
+  ]
+}

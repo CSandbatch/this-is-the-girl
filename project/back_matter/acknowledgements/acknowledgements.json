@@ -1,0 +1,8 @@
+{
+  "schema": "schema.back_item.v1",
+  "type": "acknowledgements",
+  "content": "",
+  "meta": {
+    "tex": "acknowledgements.tex"
+  }
+}

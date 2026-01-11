@@ -1,0 +1,13 @@
+% Project preamble layer (wrapper): Pagination / manifest compliance
+% Inputs the repo-root preamble template.
+
+\IfFileExists{../preamble/layers/01-manifest-compliance.tex}{%
+  \input{../preamble/layers/01-manifest-compliance.tex}%
+}{%
+  \IfFileExists{../../preamble/layers/01-manifest-compliance.tex}{%
+    \input{../../preamble/layers/01-manifest-compliance.tex}%
+  }{%
+    \errmessage{Cannot locate repo-root preamble layer: preamble/layers/01-manifest-compliance.tex}%
+  }%
+}%
+

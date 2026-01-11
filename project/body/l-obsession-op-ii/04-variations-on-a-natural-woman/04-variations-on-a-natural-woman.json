@@ -1,0 +1,47 @@
+{
+  "id": "variations-on-a-natural-woman",
+  "title": "Variations on a Natural Woman",
+  "subtitle": "(Roundel Mutations, an interlude in B Flat Minor)",
+  "block_type": "cycle",
+  "parent_section": "l-obsession-op-ii",
+  "ordering": "fixed",
+  "movement_count": 6,
+  "movements": [
+    {
+      "order": 1,
+      "path": "01-andante",
+      "title": "I: Andante con Moto",
+      "subtitle": null
+    },
+    {
+      "order": 2,
+      "path": "02-con-nebbia",
+      "title": "II: Con Nebbia",
+      "subtitle": "With Mist/Static"
+    },
+    {
+      "order": 3,
+      "path": "03-capriccioso",
+      "title": "Capriccioso, dissoluto",
+      "subtitle": null
+    },
+    {
+      "order": 4,
+      "path": "04-sognante",
+      "title": "IV: Sognante",
+      "subtitle": "(Dreamlike)"
+    },
+    {
+      "order": 5,
+      "path": "05-da-capo",
+      "title": "V: Da Capo",
+      "subtitle": "(Return)"
+    },
+    {
+      "order": 6,
+      "path": "06-scherzo",
+      "title": "VI: Scherzo alla Shatter",
+      "subtitle": null
+    }
+  ]
+}

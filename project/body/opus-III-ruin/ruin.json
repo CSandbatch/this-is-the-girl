@@ -1,0 +1,84 @@
+{
+  "id": "ruin-op-iii",
+  "title": "Ruin",
+  "subtitle": "Op. III",
+  "block_type": "section",
+  "ordering": "fixed",
+  "contents": [
+    {
+      "order": 1,
+      "type": "section_title_page",
+      "path": "00-section-title"
+    },
+    {
+      "order": 2,
+      "type": "section_epigraph_page",
+      "path": "00-section-title-epigraph"
+    },
+    {
+      "order": 3,
+      "type": "poem",
+      "path": "01-apologia"
+    },
+    {
+      "order": 4,
+      "type": "poem",
+      "path": "02-the-festival-is-over"
+    },
+    {
+      "order": 5,
+      "type": "poem",
+      "path": "03-broken-sonnet"
+    },
+    {
+      "order": 6,
+      "type": "poem",
+      "path": "04-not-orpheus-i"
+    },
+    {
+      "order": 7,
+      "type": "poem",
+      "path": "05-liberaciona"
+    },
+    {
+      "order": 8,
+      "type": "poem",
+      "path": "06-white-boy"
+    },
+    {
+      "order": 9,
+      "type": "poem",
+      "path": "07-snow-leopard-memphis"
+    },
+    {
+      "order": 10,
+      "type": "poem",
+      "path": "08-impossible"
+    },
+    {
+      "order": 11,
+      "type": "poem",
+      "path": "09-and-what-would-you-do"
+    },
+    {
+      "order": 12,
+      "type": "cycle",
+      "path": "10-then-into-the-high-place"
+    },
+    {
+      "order": 13,
+      "type": "multipartpoem",
+      "path": "11-economic-decay-triptych"
+    },
+    {
+      "order": 14,
+      "type": "poem",
+      "path": "12-i-am-not-a-poet"
+    },
+    {
+      "order": 15,
+      "type": "poem",
+      "path": "13-the-bird"
+    }
+  ]
+}

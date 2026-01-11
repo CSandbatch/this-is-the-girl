@@ -1,0 +1,25 @@
+REGIME V — Blackened Baroque (decadent, liturgical, slow)
+
+This is the most Catholic–Baroque option: incense, shadow, ornament restrained by discipline.
+
+Body text (poems + prose)
+Cormorant Garamond – Regular
+• Size: 10.75 pt
+• Leading: 1.4×
+• Why: high contrast, long ascenders, sensual rhythm; reads like a late-18th-century book left in a humid room.
+
+Italics
+Cormorant Garamond – Italic
+• Languid, expressive italics—excellent for desire, prayer, obsession.
+
+Opus & section titles
+Cinzel – Regular
+• Small caps ON
+• Letterspacing +10
+• Why: Roman-funerary authority; stone, not marble gloss.
+
+Running heads / metadata
+Cormorant Garamond – Regular (8 pt)
+
+Effect: ecclesiastical decadence, slow heat, ruin with dignity.
+Use if you want the book to feel dangerously old.

@@ -1,0 +1,25 @@
+REGIME IV — Contemporary Score / Musical Logic
+
+For emphasizing the opus / score concept without modernist gimmicks.
+
+Body text
+Source Serif 4 – Regular
+• Size: 10.75 pt
+• Leading: 1.35×
+• Rationale: slightly tighter than Libre Baskerville, very controlled texture.
+
+Italics
+Source Serif 4 – Italic
+• Clean, disciplined emphasis
+
+Opus & section titles
+Alegreya SC – Medium
+• Small caps on
+• Letterspacing +5
+• Rationale: score-like authority without Roman monumentality
+
+Poem titles
+Source Serif 4 – Italic
+
+Effect: structured, architectural, musically legible.
+Best if the opus concept is foregrounded.

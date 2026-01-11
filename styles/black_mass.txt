@@ -1,0 +1,29 @@
+REGIME XI — Rimbaudian Fever / Symbolist Breakdown
+
+(Youth, brilliance, collapse, illumination-by-overexposure)
+
+This is the most French, reckless, incandescent option. It should feel unstable.
+
+Body text
+Spectral – ExtraLight
+• Size: 11 pt
+• Leading: 1.3×
+• Why: extreme contrast makes lines flicker; words feel like they might vanish mid-sentence.
+
+Italics
+Spectral – Italic
+• Sharp, nervous, hallucinatory.
+
+Opus & section titles
+Playfair Display SC – Regular
+• Letterspacing +10
+• Why: theatrical decadence, salon culture, beauty bordering on collapse.
+
+Running heads / metadata
+Spectral – Regular
+
+Effect:
+The poems feel too bright, too young, too intense to survive.
+This is Rimbaud at the river’s edge, drunk, incandescent, about to disappear.
+
+This regime is dangerous but perfect for Obsession.

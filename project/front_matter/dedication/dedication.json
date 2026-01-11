@@ -1,0 +1,9 @@
+{
+  "schema": "schema.front_item.v1",
+  "type": "dedication",
+  "content": "",
+  "meta": {
+    "tex": "dedication.tex"
+  }
+}
+

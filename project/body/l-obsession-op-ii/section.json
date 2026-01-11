@@ -1,0 +1,17 @@
+{
+  "schema": "schema.section.v2",
+  "id": "l-obsession-op-ii",
+  "title": "L’Obsession",
+  "subtitle": "Op. II",
+  "items": [
+    "00-section-title/00-section-title.json",
+    "00-section-title-epigraph/00-section-title-epigraph.json",
+    "01-apologia/01-apologia.json",
+    "02-we-tell-ourselves-stories/02-we-tell-ourselves-stories.json",
+    "04-variations-on-a-natural-woman/04-variations-on-a-natural-woman.json",
+    "04b-quartet-for-two-in-a-minor-key/04b-quartet-for-two-in-a-minor-key.json",
+    "05-erato/05-erato.json",
+    "06-let-the-flower-bleed/06-let-the-flower-bleed.json",
+    "07-rotflower-rotflower/07-rotflower-rotflower.json"
+  ]
+}

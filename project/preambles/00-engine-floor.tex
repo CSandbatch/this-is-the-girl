@@ -1,0 +1,13 @@
+% Project preamble layer (wrapper): Engine floor
+% Inputs the repo-root preamble template.
+
+\IfFileExists{../preamble/layers/00-engine-floor.tex}{%
+  \input{../preamble/layers/00-engine-floor.tex}%
+}{%
+  \IfFileExists{../../preamble/layers/00-engine-floor.tex}{%
+    \input{../../preamble/layers/00-engine-floor.tex}%
+  }{%
+    \errmessage{Cannot locate repo-root preamble layer: preamble/layers/00-engine-floor.tex}%
+  }%
+}%
+

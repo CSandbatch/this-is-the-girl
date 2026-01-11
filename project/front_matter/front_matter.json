@@ -1,0 +1,12 @@
+{
+  "schema": "schema.front_matter.v1",
+  "items": [
+    "half_title/half_title.json",
+    "title_page/title_page.json",
+    "copyright/copyright.json",
+    "dedication/dedication.json",
+    "epigraph/epigraph.json",
+    "contents/contents.json",
+    "preface/preface.json"
+  ]
+}

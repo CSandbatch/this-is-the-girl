@@ -1,0 +1,101 @@
+% =========================================================
+% STYLE — PROOF / REGIME VI (Gulf Noir Decay)
+% =========================================================
+% Source: styles/noir.txt
+%
+% Body text:
+% - Crimson Pro (Regular), 10.5pt, leading ~1.35–1.4A-
+% Opus & section titles:
+% - IM Fell English SC (Small caps)
+% Poem titles:
+% - Crimson Pro Italic
+% =========================================================
+
+% Body font
+\IfFileExists{\TexGraphFontPath{CrimsonPro-Regular.ttf}}{%
+  \setmainfont{CrimsonPro-Regular.ttf}[
+    Path=\TexGraphFontDir,
+    Ligatures=TeX,
+    ItalicFont=CrimsonPro-Italic.ttf,
+    BoldFont=CrimsonPro-Bold.ttf,
+    BoldItalicFont=CrimsonPro-BoldItalic.ttf
+  ]%
+}{%
+  \IfFontExistsTF{Crimson Pro}{%
+    \setmainfont{Crimson Pro}[Ligatures=TeX]%
+  }{%
+    \IfFontExistsTF{Source Serif 4}{%
+      \setmainfont{Source Serif 4}[Ligatures=TeX]%
+    }{%
+      \setmainfont{Latin Modern Roman}[Ligatures=TeX]%
+    }%
+  }%
+}%
+
+% Body size + leading
+\AtBeginDocument{%
+  \fontsize{10.5pt}{14.5pt}\selectfont
+}%
+
+% Opus/section title font
+\IfFileExists{\TexGraphFontPath{IMFellEnglishSC-Regular.ttf}}{%
+  \newfontfamily\OpusTitleFont{IMFellEnglishSC-Regular.ttf}[
+    Path=\TexGraphFontDir,
+    Ligatures=TeX,
+    LetterSpace=4
+  ]%
+}{%
+  \IfFontExistsTF{IM FELL English SC}{%
+    \newfontfamily\OpusTitleFont{IM FELL English SC}[Ligatures=TeX,LetterSpace=4]%
+  }{%
+    \IfFontExistsTF{IM FELL English}{%
+      \newfontfamily\OpusTitleFont{IM FELL English}[Ligatures=TeX,Letters=SmallCaps,LetterSpace=4]%
+    }{%
+      \IfFileExists{\TexGraphFontPath{AlegreyaSC-Medium.ttf}}{%
+        \newfontfamily\OpusTitleFont{AlegreyaSC-Medium.ttf}[
+          Path=\TexGraphFontDir,
+          Ligatures=TeX,
+          Letters=SmallCaps,
+          LetterSpace=6
+        ]%
+      }{%
+        \IfFontExistsTF{Alegreya SC Medium}{%
+          \newfontfamily\OpusTitleFont{Alegreya SC Medium}[Ligatures=TeX,Letters=SmallCaps,LetterSpace=6]%
+        }{%
+          \newfontfamily\OpusTitleFont{Latin Modern Roman}[Ligatures=TeX,Letters=SmallCaps,LetterSpace=5]%
+        }%
+      }%
+    }%
+  }%
+}%
+
+% Fragment-facing helpers (style-only).
+\newcommand{\OpusName}[1]{{\OpusTitleFont #1}}
+\newcommand{\OpusSectionSubtitle}[1]{{\large\OpusTitleFont #1\par}}
+% Poem blocks: title small caps to outer margin, subtitle to inner margin.
+\newcommand{\PoemTitleFont}{\OpusTitleFont}
+\newcommand{\PoemSubtitleFont}{\itshape}
+
+\newcommand{\PoemHead}[2]{%
+  \par\begingroup
+    \TexGraphOuterLine{\TexGraphFitTitleText{{\PoemTitleFont #1}}}%
+    \if\relax\detokenize{#2}\relax\else
+      \TexGraphInnerLine{\TexGraphFitSubtitleText{{\PoemSubtitleFont #2}}}%
+    \fi
+  \endgroup
+  \vspace{0.75\baselineskip}%
+  \noindent
+}
+
+\newcommand{\CycleHead}[2]{%
+  \par\begingroup
+    \TexGraphOuterLine{\TexGraphFitTitleText{{\OpusName{#1}}}}%
+    \if\relax\detokenize{#2}\relax\else
+      \TexGraphInnerLine{\TexGraphFitSubtitleText{{\PoemSubtitleFont #2}}}%
+    \fi
+  \endgroup
+  \vspace{1.0\baselineskip}%
+  \noindent
+}
+
+\AtBeginEnvironment{stanza}{\raggedright}

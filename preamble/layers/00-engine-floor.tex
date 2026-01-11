@@ -1,0 +1,162 @@
+% =========================================================
+% LAYER 0 - ENGINE FLOOR
+% =========================================================
+% @layer: 0
+% @role: engine_floor
+% @depends_on: none
+% @aesthetic: none
+% @stability: frozen
+%
+% PURPOSE:
+% Establishes:
+%  - required TeX engine (LuaLaTeX / XeLaTeX only)
+%  - Unicode + OpenType capability
+%  - project-wide physical page geometry (single source of truth)
+%  - poetry-safe paragraph semantics
+%
+% This layer defines capability and physical invariants.
+% It must NOT define style or document structure.
+% =========================================================
+
+\ifdefined\TexGraphDriver\else
+  \errmessage{This file is a preamble layer and must not be compiled directly. Compile the project driver (e.g., proof.tex).}%
+\fi
+
+% ---------------- Engine enforcement ----------------
+\RequirePackage{iftex}
+\ifPDFTeX
+  \errmessage{This project requires LuaLaTeX or XeLaTeX (pdfLaTeX is not supported).}%
+\fi
+
+% ---------------- Core capability ----------------
+\usepackage{fontspec}
+\usepackage{microtype}
+\usepackage{etoolbox}
+\usepackage{graphicx}
+
+% ---------------- Asset helper ----------------
+% Makes asset paths resilient to building from different working directories
+% (e.g., compiling from project/ vs project/proofs/).
+\newcommand{\TexGraphAssetDir}{}
+\IfFileExists{assets/printer_mark.png}{%
+  \def\TexGraphAssetDir{assets/}%
+}{%
+  \IfFileExists{../assets/printer_mark.png}{%
+    \def\TexGraphAssetDir{../assets/}%
+  }{%
+    \IfFileExists{project/assets/printer_mark.png}{%
+      \def\TexGraphAssetDir{project/assets/}%
+    }{%
+      \IfFileExists{../project/assets/printer_mark.png}{%
+        \def\TexGraphAssetDir{../project/assets/}%
+      }{%
+        \def\TexGraphAssetDir{}%
+      }%
+    }%
+  }%
+}%
+\providecommand{\TexGraphAsset}[1]{\TexGraphAssetDir#1}
+
+% ---------------- Local font cache (project/fonts/google) ----------------
+% Supports building proofs without installing system fonts.
+\newcommand{\TexGraphFontDir}{}
+\IfFileExists{../fonts/google/.texgraph-fonts}{%
+  \def\TexGraphFontDir{../fonts/google/}%
+}{%
+  \IfFileExists{fonts/google/.texgraph-fonts}{%
+    \def\TexGraphFontDir{fonts/google/}%
+  }{%
+    \def\TexGraphFontDir{}%
+  }%
+}%
+
+\providecommand{\TexGraphFontPath}[1]{\TexGraphFontDir#1}
+
+\setmainfont{Latin Modern Roman}
+
+% ---------------- Physical geometry (locked) ----------------
+\usepackage[
+  paperwidth=5.5in,
+  paperheight=8.5in,
+  inner=0.75in,
+  outer=0.625in,
+  bindingoffset=0.125in,
+  top=0.75in,
+  bottom=0.75in,
+  noheadfoot,
+  nomarginpar,
+  heightrounded
+]{geometry}
+
+\let\newgeometry\relax
+\let\restoregeometry\relax
+
+\AtBeginDocument{%
+  \typeout{[TexGraph] Engine floor loaded - geometry locked (5.5 x 8.5 POD)}%
+}
+
+% ---------------- Wrapper / cycle control ----------------
+\newif\ifCycleIncludeMovements
+\CycleIncludeMovementstrue
+
+% ---------------- Paragraph defaults (poetry-safe) ----------------
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{0pt}
+
+% ---------------- Compatibility shim ----------------
+\makeatletter
+\@ifundefined{cleardoublepage}{%
+  \newcommand{\cleardoublepage}{\clearpage}%
+}{}
+\makeatother
+
+% ---------------- Semantic environments ----------------
+\newenvironment{stanza}
+  {\par\begingroup\parindent=0pt\parskip=0pt\obeylines}
+  {\par\vspace{0.75\baselineskip}\endgroup}
+
+% Define once, but don't error if a style layer wants to override.
+\makeatletter
+\@ifundefined{prosepoem}{%
+  \newenvironment{prosepoem}
+    {%
+      \par
+      \begingroup
+        \parindent=0pt
+        \parskip=\baselineskip
+        \emergencystretch=1em
+        \tolerance=1500
+        \hyphenpenalty=300
+        \exhyphenpenalty=300
+    }
+    {%
+      \par
+      \endgroup
+    }%
+}{%
+  \renewenvironment{prosepoem}
+    {%
+      \par
+      \begingroup
+        \parindent=0pt
+        \parskip=\baselineskip
+        \emergencystretch=1em
+        \tolerance=1500
+        \hyphenpenalty=300
+        \exhyphenpenalty=300
+    }
+    {%
+      \par
+      \endgroup
+    }%
+}%
+\makeatother
+
+% ---------------- Matter heading abstraction ----------------
+\providecommand{\MatterHeading}[1]{%
+  \ifdefined\chapter
+    \chapter*{#1}%
+  \else
+    \section*{#1}%
+  \fi
+}

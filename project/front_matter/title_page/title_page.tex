@@ -1,0 +1,62 @@
+% title_page — decadent / creole / fin-de-siècle
+% Mark-centered imprint configuration
+% Ragged-bottom, single-page safe
+
+\thispagestyle{empty}
+
+\begingroup
+\raggedbottom
+
+\vspace*{\stretch{0.35}}
+
+\begin{center}
+
+% ---------- Imprint credit (de-emphasized, top) ----------
+{\footnotesize
+\addfontfeatures{LetterSpace=1}
+St.\ Expedite Press Presents\par}
+
+\vspace{3.0em}
+
+% ---------- Title block ----------
+{\Huge
+\OpusTitleFont
+\begingroup
+\setlength{\baselineskip}{1.05\baselineskip}
+Les Fi\`evres\\
+{\normalsize\itshape\addfontfeatures{LetterSpace=2} et les}\\
+{\bfseries Humeurs}
+\par
+\endgroup}
+
+\vspace{1.1em}
+
+{\itshape
+Three Themes in Chamber Verse\par}
+
+\vspace{2.6em}
+
+{\normalsize
+Christopher Sandbatch\par}
+
+\vspace{\stretch{0.9}}
+
+% ---------- Printer’s mark ----------
+\includegraphics[width=0.95in]{\TexGraphAsset{printer_mark.png}}
+
+\vspace{0.8em}
+
+% ---------- Imprint block (anchored to mark) ----------
+{\footnotesize
+\addfontfeatures{LetterSpace=1.2}
+\textsc{St.\ Expedite Press}\par}
+
+\vspace{0.3em}
+
+{\footnotesize\itshape
+\addfontfeatures{LetterSpace=1.2}
+Nouvelle-Orl\'eans\par}
+
+\end{center}
+
+\endgroup

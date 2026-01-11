@@ -1,0 +1,79 @@
+% =========================================================
+% STYLE — PROOF / REGIME VIII (Nocturne / Black Salt)
+% =========================================================
+% Source: styles/nocturne.txt
+%
+% Body text:
+% - Source Serif 4 (Regular), 10.75pt, leading ~1.3–1.35A-
+% Opus & section titles:
+% - Alegreya SC Medium (Small caps), letterspacing +6
+% =========================================================
+
+\IfFileExists{\TexGraphFontPath{SourceSerif4-Regular.ttf}}{%
+  \setmainfont{SourceSerif4-Regular.ttf}[
+    Path=\TexGraphFontDir,
+    Ligatures=TeX,
+    ItalicFont=SourceSerif4-Italic.ttf,
+    BoldFont=SourceSerif4-Bold.ttf,
+    BoldItalicFont=SourceSerif4-BoldItalic.ttf
+  ]%
+}{%
+  \IfFontExistsTF{Source Serif 4}{%
+    \setmainfont{Source Serif 4}[Ligatures=TeX]%
+  }{%
+    \setmainfont{Latin Modern Roman}[Ligatures=TeX]%
+  }%
+}%
+
+\AtBeginDocument{%
+  \fontsize{10.75pt}{14.2pt}\selectfont
+}%
+
+\IfFileExists{\TexGraphFontPath{AlegreyaSC-Medium.ttf}}{%
+  \newfontfamily\OpusTitleFont{AlegreyaSC-Medium.ttf}[
+    Path=\TexGraphFontDir,
+    Ligatures=TeX,
+    Letters=SmallCaps,
+    LetterSpace=6
+  ]%
+}{%
+  \IfFontExistsTF{Alegreya SC Medium}{%
+    \newfontfamily\OpusTitleFont{Alegreya SC Medium}[Ligatures=TeX,Letters=SmallCaps,LetterSpace=6]%
+  }{%
+    \IfFontExistsTF{Alegreya SC}{%
+      \newfontfamily\OpusTitleFont{Alegreya SC}[Ligatures=TeX,Letters=SmallCaps,LetterSpace=6]%
+    }{%
+      \newfontfamily\OpusTitleFont{Latin Modern Roman}[Ligatures=TeX,Letters=SmallCaps,LetterSpace=6]%
+    }%
+  }%
+}%
+
+\newcommand{\OpusName}[1]{{\OpusTitleFont #1}}
+\newcommand{\OpusSectionSubtitle}[1]{{\large\OpusTitleFont #1\par}}
+% Poem blocks: title small caps to outer margin, subtitle to inner margin.
+\newcommand{\PoemTitleFont}{\OpusTitleFont}
+\newcommand{\PoemSubtitleFont}{\itshape}
+
+\newcommand{\PoemHead}[2]{%
+  \par\begingroup
+    \TexGraphOuterLine{\TexGraphFitTitleText{{\PoemTitleFont #1}}}%
+    \if\relax\detokenize{#2}\relax\else
+      \TexGraphInnerLine{\TexGraphFitSubtitleText{{\PoemSubtitleFont #2}}}%
+    \fi
+  \endgroup
+  \vspace{0.75\baselineskip}%
+  \noindent
+}
+
+\newcommand{\CycleHead}[2]{%
+  \par\begingroup
+    \TexGraphOuterLine{\TexGraphFitTitleText{{\OpusName{#1}}}}%
+    \if\relax\detokenize{#2}\relax\else
+      \TexGraphInnerLine{\TexGraphFitSubtitleText{{\PoemSubtitleFont #2}}}%
+    \fi
+  \endgroup
+  \vspace{1.0\baselineskip}%
+  \noindent
+}
+
+\AtBeginEnvironment{stanza}{\raggedright}

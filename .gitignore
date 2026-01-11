@@ -1,0 +1,47 @@
+# Secrets
+.secrets.json
+.env
+.env.*
+
+# OS/editor noise
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Python cache/venv (OpenAI examples)
+__pycache__/
+*.pyc
+.venv/
+
+# LaTeX build artifacts (keep PDFs)
+*.aux
+*.bbl
+*.bcf
+*.blg
+*.fdb_latexmk
+*.fls
+*.ilg
+*.idx
+*.ind
+*.lof
+*.log
+*.lot
+*.nav
+*.out
+*.run.xml
+*.snm
+*.synctex.gz
+*.toc
+*.xdv
+
+# LaTeX build/output folders (do not commit)
+project/**/build/
+
+# PDFs (generated)
+project/proofs/*.pdf
+project/proofs/deprecated/**/*.pdf
+project/final_pass/build/*.pdf
+
+# Local font cache / junction
+fonts/
+project/fonts/google/

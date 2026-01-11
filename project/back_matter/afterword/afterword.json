@@ -1,0 +1,8 @@
+{
+  "schema": "schema.back_item.v1",
+  "type": "afterword",
+  "content": "",
+  "meta": {
+    "tex": "afterword.tex"
+  }
+}

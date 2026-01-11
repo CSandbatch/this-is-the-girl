@@ -1,0 +1,38 @@
+% ======================================================
+% Programme (Concert-Style Contents with Leaders)
+% Geometry inherited
+% ======================================================
+
+\cleardoublepage
+\providecommand{\MatterHeading}[1]{%
+  \ifdefined\chapter\chapter*{#1}\else\section*{#1}\fi}
+
+\MatterHeading{Programme}
+\thispagestyle{empty}
+
+\begingroup
+\parindent=0pt
+\parskip=0pt
+
+\vspace{2\baselineskip}
+
+% --- Op. II ---
+\noindent
+{\large\OpusName{L’Obsession}}\leaders\hbox to 0.6em{\hss.\hss}\hfill\pageref{op:obsession}\par
+{\small\itshape Op.~II: Solo Cantata in A Major\par}
+
+\vspace{1.1\baselineskip}
+
+% --- Op. III ---
+\noindent
+{\large\OpusName{Ruin}}\leaders\hbox to 0.6em{\hss.\hss}\hfill\pageref{op:ruin}\par
+{\small\itshape Op.~III: Scena in E Flat Minor\par}
+
+\vspace{1.1\baselineskip}
+
+% --- Op. IV ---
+\noindent
+{\large\OpusName{Désir}}\leaders\hbox to 0.6em{\hss.\hss}\hfill\pageref{op:desir}\par
+{\small\itshape Op.~IV: Monody in B Minor\par}
+
+\endgroup

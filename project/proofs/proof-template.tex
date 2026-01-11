@@ -1,0 +1,84 @@
+% TexGraph proof driver template (full book)
+% This file is not meant to be compiled directly.
+%
+% Drivers must define:
+% - \TexGraphDriver        (any non-empty token)
+% - \TexGraphRegimeFile    (path to a style regime .tex)
+
+\documentclass[10pt,twoside]{book}
+
+\makeatletter
+\def\input@path{{../}}%
+\makeatother
+
+\input{preambles/00-engine-floor.tex}
+\input{preambles/01-manifest-compliance.tex}
+\input{preambles/02-structure.tex}
+
+\expandafter\input\expandafter{\TexGraphRegimeFile}
+
+\begin{document}
+
+\frontmatter
+\input{front_matter/half_title/half_title.tex}
+\RectoClear
+\input{front_matter/title_page/title_page.tex}
+\input{front_matter/copyright/copyright.tex}
+\input{front_matter/dedication/dedication.tex}
+\RectoClear
+\input{front_matter/epigraph/epigraph.tex}
+\input{front_matter/contents/contents.tex}
+\input{front_matter/preface/preface.tex}
+
+\mainmatter
+
+% L'Obsession — Op. II
+\Opus{obsession}{L'Obsession}{body/l-obsession-op-ii/00-section-title/00-section-title.tex}{%
+  \BodyItem{body/l-obsession-op-ii/00-section-title-epigraph/00-section-title-epigraph.tex}%
+  \BodyItem{body/l-obsession-op-ii/01-apologia/01-apologia.tex}%
+  \BodyItem{body/l-obsession-op-ii/02-we-tell-ourselves-stories/02-we-tell-ourselves-stories.tex}%
+  \BodyItem{body/l-obsession-op-ii/04b-quartet-for-two-in-a-minor-key/04b-quartet-for-two-in-a-minor-key.tex}%
+  \BodyItem{body/l-obsession-op-ii/04-variations-on-a-natural-woman/04-variations-on-a-natural-woman.tex}%
+  \BodyItem{body/l-obsession-op-ii/05-erato/05-erato.tex}%
+  \BodyItem{body/l-obsession-op-ii/06-let-the-flower-bleed/06-let-the-flower-bleed.tex}%
+  \BodyItem{body/l-obsession-op-ii/07-rotflower-rotflower/07-rotflower-rotflower.tex}%
+}
+
+% Ruin — Op. III
+\Opus{ruin}{Ruin}{body/opus-III-ruin/00-section-title/00-section-title.tex}{%
+  \BodyItem{body/opus-III-ruin/00-section-title-epigraph/00-section-title-epigraph.tex}%
+  \BodyItem{body/opus-III-ruin/01-apologia/01-apologia.tex}%
+  \BodyItem{body/opus-III-ruin/02-the-festival-is-over/02-the-festival-is-over.tex}%
+  \BodyItem{body/opus-III-ruin/03-broken-sonnet/03-broken-sonnet.tex}%
+  \BodyItem{body/opus-III-ruin/04-not-orpheus-i/04-not-orpheus-i.tex}%
+  \BodyItem{body/opus-III-ruin/13-the-bird/13-the-bird.tex}%
+  \BodyItem{body/opus-III-ruin/05-liberaciona/05-liberaciona.tex}%
+  \BodyItem{body/opus-III-ruin/06-white-boy/06-white-boy.tex}%
+  \BodyItem{body/opus-III-ruin/07-snow-leopard-memphis/07-snow-leopard-memphis.tex}%
+  \BodyItem{body/opus-III-ruin/08-impossible/08-impossible.tex}%
+  \BodyItem{body/opus-III-ruin/09-and-what-would-you-do/09-and-what-would-you-do.tex}%
+  \BodyItem{body/opus-III-ruin/10-then-into-the-high-place/10-then-into-the-high-place.tex}%
+  \BodyItem{body/opus-III-ruin/11-economic-decay-triptych/11-economic-decay-triptych.tex}%
+  \BodyItem{body/opus-III-ruin/12-i-am-not-a-poet/12-i-am-not-a-poet.tex}%
+}
+
+% Desir — Op. IV
+\Opus{desir}{Desir}{body/opus-IV-desir/00-section-title/00-section-title.tex}{%
+  \BodyItem{body/opus-IV-desir/00-section-title-epigraph/00-section-title-epigraph.tex}%
+  \BodyItem{body/opus-IV-desir/01-apologia-prose/01-apologia-prose.tex}%
+  \BodyItem{body/opus-IV-desir/02-lilies-of-the-morning/02-lilies-of-the-morning.tex}%
+  \BodyItem{body/opus-IV-desir/03-song-for-the-stranger/03-song-for-the-stranger.tex}%
+  \BodyItem{body/opus-IV-desir/05-spring-question/05-spring-question.tex}%
+  \BodyItem{body/opus-IV-desir/04-letter-lost/04-letter-lost.tex}%
+  \BodyItem{body/opus-IV-desir/07-graveyard-lesson/07-graveyard-lesson.tex}%
+  \BodyItem{body/opus-IV-desir/06-comfort-is-plenty/06-comfort-is-plenty.tex}%
+  \BodyItem{body/opus-IV-desir/08-kindness-returns-downriver/08-kindness-returns-downriver.tex}%
+  \BodyItem{body/opus-IV-desir/09-chiaroscuro/09-chiaroscuro.tex}%
+  \BodyItem{body/opus-IV-desir/10-to-the-sea/10-to-the-sea.tex}%
+}
+
+\backmatter
+\input{back_matter/acknowledgements/acknowledgements.tex}
+\input{back_matter/colophon/colophon.tex}
+
+\end{document}

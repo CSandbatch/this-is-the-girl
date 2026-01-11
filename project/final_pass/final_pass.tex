@@ -1,0 +1,538 @@
+% TexGraph — final_pass build driver
+% Self-contained preamble (combined) + canonical book assembly.
+% !TEX program = lualatex
+
+\def\TexGraphDriver{final-pass}
+
+\documentclass[10pt,twoside]{book}
+
+\makeatletter
+\def\input@path{{../}}%
+\makeatother
+
+% =========================================================
+% COMBINED PREAMBLE (Engine floor + Pagination + Structure + Regime)
+% =========================================================
+
+% ---------------- Engine floor ----------------
+\RequirePackage{iftex}
+\ifPDFTeX
+  \errmessage{This project requires LuaLaTeX or XeLaTeX (pdfLaTeX is not supported).}%
+\fi
+
+\usepackage{fontspec}
+\usepackage{microtype}
+\usepackage{etoolbox}
+\usepackage{graphicx}
+
+% Asset helper (resilient to build from different working directories)
+\newcommand{\TexGraphAssetDir}{}
+\IfFileExists{assets/printer_mark.png}{%
+  \def\TexGraphAssetDir{assets/}%
+}{%
+  \IfFileExists{../assets/printer_mark.png}{%
+    \def\TexGraphAssetDir{../assets/}%
+  }{%
+    \IfFileExists{project/assets/printer_mark.png}{%
+      \def\TexGraphAssetDir{project/assets/}%
+    }{%
+      \IfFileExists{../project/assets/printer_mark.png}{%
+        \def\TexGraphAssetDir{../project/assets/}%
+      }{%
+        \def\TexGraphAssetDir{}%
+      }%
+    }%
+  }%
+}%
+\providecommand{\TexGraphAsset}[1]{\TexGraphAssetDir#1}
+
+% Local font cache (project/fonts/google)
+\newcommand{\TexGraphFontDir}{}
+\IfFileExists{../fonts/google/.texgraph-fonts}{%
+  \def\TexGraphFontDir{../fonts/google/}%
+}{%
+  \IfFileExists{fonts/google/.texgraph-fonts}{%
+    \def\TexGraphFontDir{fonts/google/}%
+  }{%
+    \def\TexGraphFontDir{}%
+  }%
+}%
+\providecommand{\TexGraphFontPath}[1]{\TexGraphFontDir#1}
+
+\setmainfont{Latin Modern Roman}
+
+% Physical geometry (locked)
+\usepackage[
+  paperwidth=5.5in,
+  paperheight=8.5in,
+  inner=0.75in,
+  outer=0.625in,
+  bindingoffset=0.125in,
+  top=0.75in,
+  bottom=0.75in,
+  noheadfoot,
+  nomarginpar,
+  heightrounded
+]{geometry}
+
+\let\newgeometry\relax
+\let\restoregeometry\relax
+
+\AtBeginDocument{%
+  \typeout{[TexGraph] Engine floor loaded - geometry locked (5.5 x 8.5 POD)}%
+}
+
+% Wrapper / cycle control
+\newif\ifCycleIncludeMovements
+\CycleIncludeMovementstrue
+
+% Paragraph defaults (poetry-safe)
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{0pt}
+
+% Compatibility shim
+\makeatletter
+\@ifundefined{cleardoublepage}{%
+  \newcommand{\cleardoublepage}{\clearpage}%
+}{}%
+\makeatother
+
+% Semantic environments
+\newenvironment{stanza}
+  {\par\begingroup\parindent=0pt\parskip=0pt\obeylines}
+  {\par\vspace{0.75\baselineskip}\endgroup}
+
+\makeatletter
+\@ifundefined{prosepoem}{%
+  \newenvironment{prosepoem}
+    {%
+      \par
+      \begingroup
+        \parindent=0pt
+        \parskip=\baselineskip
+        \emergencystretch=1em
+        \tolerance=1500
+        \hyphenpenalty=300
+        \exhyphenpenalty=300
+    }
+    {%
+      \par
+      \endgroup
+    }%
+}{%
+  \renewenvironment{prosepoem}
+    {%
+      \par
+      \begingroup
+        \parindent=0pt
+        \parskip=\baselineskip
+        \emergencystretch=1em
+        \tolerance=1500
+        \hyphenpenalty=300
+        \exhyphenpenalty=300
+    }
+    {%
+      \par
+      \endgroup
+    }%
+}%
+\makeatother
+
+\providecommand{\MatterHeading}[1]{%
+  \ifdefined\chapter
+    \chapter*{#1}%
+  \else
+    \section*{#1}%
+  \fi
+}
+
+% ---------------- Pagination / manifest compliance ----------------
+\raggedbottom
+\flushbottom
+\pagenumbering{arabic}
+\clubpenalty=10000
+\widowpenalty=10000
+\pagestyle{plain}
+
+% ---------------- Structure (recto-aware, single numbering schema) ----------------
+\makeatletter
+
+\newcommand{\RectoClear}{%
+  \clearpage
+  \if@twoside
+    \ifodd\value{page}\else
+      \hbox{}%
+      \thispagestyle{empty}%
+      \newpage
+    \fi
+  \fi
+}
+
+\newcommand{\SectionTitleClear}{%
+  \clearpage
+  \if@twoside
+    \ifodd\value{page}%
+      \thispagestyle{empty}\hbox{}%
+      \newpage
+    \fi
+    \thispagestyle{empty}\hbox{}%
+    \newpage
+  \fi
+}
+
+\newcommand{\TexGraphOuterLine}[1]{%
+  \noindent
+  \if@twoside
+    \ifodd\value{page}%
+      \hfill\mbox{#1}%
+    \else
+      \mbox{#1}\hfill%
+    \fi
+  \else
+    \hfill\mbox{#1}%
+  \fi
+  \par
+}
+
+\newcommand{\TexGraphInnerLine}[1]{%
+  \noindent
+  \if@twoside
+    \ifodd\value{page}%
+      \mbox{#1}\hfill%
+    \else
+      \hfill\mbox{#1}%
+    \fi
+  \else
+    \mbox{#1}\hfill%
+  \fi
+  \par
+}
+
+\newcommand{\TexGraphFitTitleText}[1]{%
+  \begingroup
+    \setbox0=\hbox{{\Large #1}}%
+    \ifdim\wd0>\linewidth
+      \setbox0=\hbox{{\large #1}}%
+      \ifdim\wd0>\linewidth
+        \setbox0=\hbox{{\normalsize #1}}%
+        \ifdim\wd0>\linewidth
+          \setbox0=\hbox{{\small #1}}%
+        \fi
+      \fi
+    \fi
+    \box0
+  \endgroup
+}
+
+\newcommand{\TexGraphFitSubtitleText}[1]{%
+  \begingroup
+    \setbox0=\hbox{{\normalsize #1}}%
+    \ifdim\wd0>\linewidth
+      \setbox0=\hbox{{\small #1}}%
+      \ifdim\wd0>\linewidth
+        \setbox0=\hbox{{\footnotesize #1}}%
+        \ifdim\wd0>\linewidth
+          \setbox0=\hbox{{\scriptsize #1}}%
+        \fi
+      \fi
+    \fi
+    \box0
+  \endgroup
+}
+
+\renewcommand{\frontmatter}{%
+  \RectoClear
+  \@mainmatterfalse
+}
+
+\renewcommand{\mainmatter}{%
+  \RectoClear
+  \@mainmattertrue
+}
+
+\renewcommand{\backmatter}{%
+  \RectoClear
+  \@mainmatterfalse
+}
+
+\makeatother
+
+\newcommand{\BodyItem}[1]{%
+  \clearpage
+  \input{#1}%
+}
+
+\providecommand{\ProsePoemHead}[2]{\PoemHead{#1}{#2}}
+\providecommand{\ProseInsetLines}[1]{%
+  \par
+  \begingroup
+    \leftskip=2em
+    \rightskip=2em
+    \parindent=0pt
+    \parskip=0pt
+    \obeylines
+    #1\par
+  \endgroup
+}
+
+% Cycle movement paging
+% After a cycle's title block, movement 1 continues on the same page.
+% Movements 2+ begin on their own pages.
+\newif\ifTexGraphFirstMovement
+\newcommand{\CycleBegin}{\TexGraphFirstMovementtrue}
+\newcommand{\CycleMovement}[1]{%
+  \ifTexGraphFirstMovement
+    \TexGraphFirstMovementfalse
+  \else
+    \clearpage
+  \fi
+  \input{#1}%
+}
+
+% Opus node
+\newcounter{TexGraphOpus}
+\renewcommand{\theTexGraphOpus}{\Roman{TexGraphOpus}}
+
+\newcommand{\TexGraphCurrentOpusId}{}
+\newcommand{\TexGraphCurrentOpusTitle}{}
+
+\newcommand{\TexGraphSetOpusMeta}[2]{%
+  \gdef\TexGraphCurrentOpusId{#1}%
+  \gdef\TexGraphCurrentOpusTitle{#2}%
+  \markboth{#2}{#2}%
+}
+
+% \Opus{<id>}{<title>}{<entry-file>}{<body>}
+\newcommand{\Opus}[4]{%
+  \SectionTitleClear
+  \refstepcounter{TexGraphOpus}%
+  \TexGraphSetOpusMeta{#1}{#2}%
+  \label{op:#1}%
+  \input{#3}%
+  #4%
+}
+
+% ---------------- Regime: Noir Optimal (Serif 4) ----------------
+
+% Body font
+\IfFileExists{\TexGraphFontPath{SourceSerif4-Regular.ttf}}{%
+  \setmainfont{SourceSerif4-Regular.ttf}[
+    Path=\TexGraphFontDir,
+    Ligatures=TeX,
+    Kerning=On,
+    Numbers=OldStyle,
+    ItalicFont=SourceSerif4-Italic.ttf,
+    BoldFont=SourceSerif4-Bold.ttf,
+    BoldItalicFont=SourceSerif4-BoldItalic.ttf
+  ]%
+}{%
+  \IfFontExistsTF{Source Serif 4}{%
+    \setmainfont{Source Serif 4}[Ligatures=TeX,Kerning=On,Numbers=OldStyle]%
+  }{%
+    \setmainfont{Latin Modern Roman}[Ligatures=TeX]%
+  }%
+}%
+
+% Body size + leading
+\AtBeginDocument{%
+  \fontsize{11pt}{15.0pt}\selectfont
+  \setlength{\emergencystretch}{1.5em}%
+  \microtypesetup{protrusion=true,expansion=true}%
+}%
+
+% Opus/section title font
+\IfFileExists{\TexGraphFontPath{IMFellEnglishSC-Regular.ttf}}{%
+  \newfontfamily\OpusTitleFont{IMFellEnglishSC-Regular.ttf}[
+    Path=\TexGraphFontDir,
+    Ligatures=TeX,
+    Kerning=On,
+    LetterSpace=6
+  ]%
+}{%
+  \IfFontExistsTF{IM Fell English SC}{%
+    \newfontfamily\OpusTitleFont{IM Fell English SC}[Ligatures=TeX,Kerning=On,LetterSpace=6]%
+  }{%
+    \IfFileExists{\TexGraphFontPath{AlegreyaSC-Medium.ttf}}{%
+      \newfontfamily\OpusTitleFont{AlegreyaSC-Medium.ttf}[
+        Path=\TexGraphFontDir,
+        Ligatures=TeX,
+        Kerning=On,
+        Letters=SmallCaps,
+        LetterSpace=6
+      ]%
+    }{%
+      \newfontfamily\OpusTitleFont{Latin Modern Roman}[Ligatures=TeX,Letters=SmallCaps,LetterSpace=5]%
+    }%
+  }%
+}%
+
+\newcommand{\OpusName}[1]{{\OpusTitleFont\addfontfeatures{FakeBold=1.8} #1}}
+\newcommand{\OpusSectionSubtitle}[1]{{\large\OpusTitleFont #1\par}}
+
+\newcommand{\PoemTitleFont}{\OpusTitleFont\addfontfeatures{FakeBold=1.8}}
+\newcommand{\PoemSubtitleFont}{\OpusTitleFont\itshape\addfontfeatures{FakeBold=1.2,FakeSlant=0.2}}
+
+% Subtitle at current body size (not class \normalsize).
+\renewcommand{\TexGraphFitSubtitleText}[1]{%
+  \begingroup
+    \setbox0=\hbox{{#1}}%
+    \ifdim\wd0>\linewidth
+      \setbox0=\hbox{{\small #1}}%
+      \ifdim\wd0>\linewidth
+        \setbox0=\hbox{{\footnotesize #1}}%
+        \ifdim\wd0>\linewidth
+          \setbox0=\hbox{{\scriptsize #1}}%
+        \fi
+      \fi
+    \fi
+    \box0
+  \endgroup
+}
+
+\newcommand{\PoemHead}[2]{%
+  \par\begingroup
+    \TexGraphOuterLine{\TexGraphFitTitleText{{\PoemTitleFont #1}}}%
+    \if\relax\detokenize{#2}\relax\else
+      \vspace{0.5\baselineskip}%
+      \TexGraphInnerLine{\TexGraphFitSubtitleText{{\PoemSubtitleFont #2}}}%
+    \fi
+  \endgroup
+  \vspace{2.5\baselineskip}%
+  \noindent
+}
+
+\newcommand{\CyclePartHead}[1]{%
+  \par\vspace{2\baselineskip}%
+  \begingroup
+    \TexGraphOuterLine{\TexGraphFitTitleText{{\PoemTitleFont #1}}}%
+  \endgroup
+  \vspace{1.25\baselineskip}%
+  \noindent
+}
+
+\newcommand{\CyclePartHeadTight}[1]{%
+  \par\begingroup
+    \TexGraphOuterLine{\TexGraphFitTitleText{{\PoemTitleFont #1}}}%
+  \endgroup
+  \vspace{0.75\baselineskip}%
+  \noindent
+}
+
+\newcommand{\CycleInterMovementSpace}{\par\vspace{1.0\baselineskip}}
+
+\newcommand{\CycleHead}[2]{%
+  \par\begingroup
+    \TexGraphOuterLine{\TexGraphFitTitleText{{\OpusName{#1}}}}%
+    \if\relax\detokenize{#2}\relax\else
+      \vspace{0.5\baselineskip}%
+      \TexGraphInnerLine{\TexGraphFitSubtitleText{{\PoemSubtitleFont #2}}}%
+    \fi
+  \endgroup
+  \vspace{2.0\baselineskip}%
+  \noindent
+}
+
+\newcommand{\DistressedText}{%
+  \addfontfeatures{
+    LetterSpace=2,
+    FakeStretch=0.98
+  }%
+}
+
+\AtBeginEnvironment{stanza}{\raggedright}
+
+% Prose poem support
+\renewcommand{\ProsePoemHead}[2]{%
+  \par\begingroup
+    \TexGraphOuterLine{\TexGraphFitTitleText{{\PoemTitleFont #1}}}%
+    \if\relax\detokenize{#2}\relax\else
+      \vspace{0.5\baselineskip}%
+      \TexGraphInnerLine{\TexGraphFitSubtitleText{{\PoemSubtitleFont #2}}}%
+    \fi
+  \endgroup
+  \vspace{2.5\baselineskip}%
+  \noindent
+}
+
+\renewcommand{\ProseInsetLines}[1]{%
+  \par
+  \begingroup
+    \leftskip=2em
+    \rightskip=2em
+    \parindent=0pt
+    \parskip=0pt
+    \obeylines
+    #1\par
+  \endgroup
+  \par
+}
+
+% =========================================================
+% DOCUMENT
+% =========================================================
+
+\begin{document}
+
+\frontmatter
+\input{front_matter/half_title/half_title.tex}
+\RectoClear
+\input{front_matter/title_page/title_page.tex}
+\input{front_matter/copyright/copyright.tex}
+\input{front_matter/dedication/dedication.tex}
+\RectoClear
+\input{front_matter/epigraph/epigraph.tex}
+\input{front_matter/contents/contents.tex}
+\input{front_matter/preface/preface.tex}
+
+\mainmatter
+
+% L'Obsession — Op. II
+\Opus{obsession}{L'Obsession}{body/l-obsession-op-ii/00-section-title/00-section-title.tex}{%
+  \BodyItem{body/l-obsession-op-ii/00-section-title-epigraph/00-section-title-epigraph.tex}%
+  \BodyItem{body/l-obsession-op-ii/01-apologia/01-apologia.tex}%
+  \BodyItem{body/l-obsession-op-ii/02-we-tell-ourselves-stories/02-we-tell-ourselves-stories.tex}%
+  \BodyItem{body/l-obsession-op-ii/04b-quartet-for-two-in-a-minor-key/04b-quartet-for-two-in-a-minor-key.tex}%
+  \BodyItem{body/l-obsession-op-ii/04-variations-on-a-natural-woman/04-variations-on-a-natural-woman.tex}%
+  \BodyItem{body/l-obsession-op-ii/05-erato/05-erato.tex}%
+  \BodyItem{body/l-obsession-op-ii/06-let-the-flower-bleed/06-let-the-flower-bleed.tex}%
+  \BodyItem{body/l-obsession-op-ii/07-rotflower-rotflower/07-rotflower-rotflower.tex}%
+}
+
+% Ruin — Op. III
+\Opus{ruin}{Ruin}{body/opus-III-ruin/00-section-title/00-section-title.tex}{%
+  \BodyItem{body/opus-III-ruin/00-section-title-epigraph/00-section-title-epigraph.tex}%
+  \BodyItem{body/opus-III-ruin/01-apologia/01-apologia.tex}%
+  \BodyItem{body/opus-III-ruin/02-the-festival-is-over/02-the-festival-is-over.tex}%
+  \BodyItem{body/opus-III-ruin/03-broken-sonnet/03-broken-sonnet.tex}%
+  \BodyItem{body/opus-III-ruin/04-not-orpheus-i/04-not-orpheus-i.tex}%
+  \BodyItem{body/opus-III-ruin/13-the-bird/13-the-bird.tex}%
+  \BodyItem{body/opus-III-ruin/05-liberaciona/05-liberaciona.tex}%
+  \BodyItem{body/opus-III-ruin/06-white-boy/06-white-boy.tex}%
+  \BodyItem{body/opus-III-ruin/07-snow-leopard-memphis/07-snow-leopard-memphis.tex}%
+  \BodyItem{body/opus-III-ruin/08-impossible/08-impossible.tex}%
+  \BodyItem{body/opus-III-ruin/09-and-what-would-you-do/09-and-what-would-you-do.tex}%
+  \BodyItem{body/opus-III-ruin/10-then-into-the-high-place/10-then-into-the-high-place.tex}%
+  \BodyItem{body/opus-III-ruin/11-economic-decay-triptych/11-economic-decay-triptych.tex}%
+  \BodyItem{body/opus-III-ruin/12-i-am-not-a-poet/12-i-am-not-a-poet.tex}%
+}
+
+% Desir — Op. IV
+\Opus{desir}{Desir}{body/opus-IV-desir/00-section-title/00-section-title.tex}{%
+  \BodyItem{body/opus-IV-desir/00-section-title-epigraph/00-section-title-epigraph.tex}%
+  \BodyItem{body/opus-IV-desir/01-apologia-prose/01-apologia-prose.tex}%
+  \BodyItem{body/opus-IV-desir/02-lilies-of-the-morning/02-lilies-of-the-morning.tex}%
+  \BodyItem{body/opus-IV-desir/03-song-for-the-stranger/03-song-for-the-stranger.tex}%
+  \BodyItem{body/opus-IV-desir/05-spring-question/05-spring-question.tex}%
+  \BodyItem{body/opus-IV-desir/04-letter-lost/04-letter-lost.tex}%
+  \BodyItem{body/opus-IV-desir/07-graveyard-lesson/07-graveyard-lesson.tex}%
+  \BodyItem{body/opus-IV-desir/06-comfort-is-plenty/06-comfort-is-plenty.tex}%
+  \BodyItem{body/opus-IV-desir/08-kindness-returns-downriver/08-kindness-returns-downriver.tex}%
+  \BodyItem{body/opus-IV-desir/09-chiaroscuro/09-chiaroscuro.tex}%
+  \BodyItem{body/opus-IV-desir/10-to-the-sea/10-to-the-sea.tex}%
+}
+
+\backmatter
+\input{back_matter/acknowledgements/acknowledgements.tex}
+\input{back_matter/colophon/colophon.tex}
+
+\end{document}

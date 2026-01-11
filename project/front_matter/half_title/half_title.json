@@ -1,0 +1,8 @@
+{
+  "schema": "schema.front_item.v1",
+  "type": "half_title",
+  "content": "",
+  "meta": {
+    "tex": "half_title.tex"
+  }
+}

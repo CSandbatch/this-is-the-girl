@@ -1,0 +1,11 @@
+% multipartpoem wrapper (no preamble; inputs movement TeX files)
+\CycleHead{To the Sea}{(From Canto Novo by Gabriele d'Aunnzio)}
+\CycleBegin
+
+\ifCycleIncludeMovements
+  \CycleMovement{body/opus-IV-desir/10-to-the-sea/01-i/01-i.tex}
+  \CycleInterMovementSpace
+  \input{body/opus-IV-desir/10-to-the-sea/02-ii/02-ii.tex}
+  \RectoClear
+  \input{body/opus-IV-desir/10-to-the-sea/03-iii/03-iii.tex}
+\fi

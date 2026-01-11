@@ -1,0 +1,102 @@
+% =========================================================
+% STYLE — PROOF / REGIME VI (Noir) — OPTIMAL
+% =========================================================
+% Goal: preserve the Noir concept while improving readability, line-breaking,
+% and title contrast on 5.5x8.5 POD geometry.
+%
+% Body text:
+% - Crimson Pro (Regular), tuned size/leading
+% Opus & section titles:
+% - IM Fell English SC, slightly increased tracking
+% =========================================================
+
+% ---------------- Body font ----------------
+\IfFileExists{\TexGraphFontPath{CrimsonPro-Regular.ttf}}{%
+  \setmainfont{CrimsonPro-Regular.ttf}[
+    Path=\TexGraphFontDir,
+    Ligatures=TeX,
+    Kerning=On,
+    Numbers=OldStyle,
+    ItalicFont=CrimsonPro-Italic.ttf,
+    BoldFont=CrimsonPro-SemiBold.ttf,
+    BoldItalicFont=CrimsonPro-SemiBoldItalic.ttf
+  ]%
+}{%
+  \IfFontExistsTF{Crimson Pro}{%
+    \setmainfont{Crimson Pro}[Ligatures=TeX,Kerning=On,Numbers=OldStyle]%
+  }{%
+    \IfFileExists{\TexGraphFontPath{SourceSerif4-Regular.ttf}}{%
+      \setmainfont{SourceSerif4-Regular.ttf}[Path=\TexGraphFontDir,Ligatures=TeX]%
+    }{%
+      \setmainfont{Latin Modern Roman}[Ligatures=TeX]%
+    }%
+  }%
+}%
+
+% ---------------- Body size + leading ----------------
+% Slightly tighter than the original Noir to reduce page-count pressure while
+% keeping a comfortable measure on the locked geometry.
+\AtBeginDocument{%
+  \fontsize{11pt}{14.0pt}\selectfont
+  \setlength{\emergencystretch}{1.5em}%
+  \microtypesetup{protrusion=true,expansion=true}%
+}%
+
+% ---------------- Opus/section title font ----------------
+\IfFileExists{\TexGraphFontPath{IMFellEnglishSC-Regular.ttf}}{%
+  \newfontfamily\OpusTitleFont{IMFellEnglishSC-Regular.ttf}[
+    Path=\TexGraphFontDir,
+    Ligatures=TeX,
+    Kerning=On,
+    LetterSpace=6
+  ]%
+}{%
+  \IfFontExistsTF{IM Fell English SC}{%
+    \newfontfamily\OpusTitleFont{IM Fell English SC}[Ligatures=TeX,Kerning=On,LetterSpace=6]%
+  }{%
+    \IfFileExists{\TexGraphFontPath{AlegreyaSC-Medium.ttf}}{%
+      \newfontfamily\OpusTitleFont{AlegreyaSC-Medium.ttf}[
+        Path=\TexGraphFontDir,
+        Ligatures=TeX,
+        Kerning=On,
+        Letters=SmallCaps,
+        LetterSpace=6
+      ]%
+    }{%
+      \newfontfamily\OpusTitleFont{Latin Modern Roman}[Ligatures=TeX,Letters=SmallCaps,LetterSpace=5]%
+    }%
+  }%
+}%
+
+% ---------------- Fragment-facing helpers (style-only) ----------------
+\newcommand{\OpusName}[1]{{\OpusTitleFont\addfontfeatures{FakeBold=1.8} #1}}
+\newcommand{\OpusSectionSubtitle}[1]{{\large\OpusTitleFont #1\par}}
+
+% Poem blocks: title small caps to outer margin, subtitle to inner margin.
+\newcommand{\PoemTitleFont}{\OpusTitleFont\addfontfeatures{FakeBold=1.8}}
+\newcommand{\PoemSubtitleFont}{\itshape\addfontfeatures{Numbers=OldStyle}}
+
+\newcommand{\PoemHead}[2]{%
+  \par\begingroup
+    \TexGraphOuterLine{\TexGraphFitTitleText{{\PoemTitleFont #1}}}%
+    \if\relax\detokenize{#2}\relax\else
+      \TexGraphInnerLine{\TexGraphFitSubtitleText{{\PoemSubtitleFont #2}}}%
+    \fi
+  \endgroup
+  \vspace{0.75\baselineskip}%
+  \noindent
+}
+
+\newcommand{\CycleHead}[2]{%
+  \par\begingroup
+    \TexGraphOuterLine{\TexGraphFitTitleText{{\OpusName{#1}}}}%
+    \if\relax\detokenize{#2}\relax\else
+      \TexGraphInnerLine{\TexGraphFitSubtitleText{{\PoemSubtitleFont #2}}}%
+    \fi
+  \endgroup
+  \vspace{1.0\baselineskip}%
+  \noindent
+}
+
+% Verse should not be fully justified.
+\AtBeginEnvironment{stanza}{\raggedright}

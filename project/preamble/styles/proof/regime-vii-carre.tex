@@ -1,0 +1,111 @@
+% =========================================================
+% STYLE — PROOF / REGIME VII (Rimbaud in the Quarter)
+% =========================================================
+% Source: styles/carre.txt
+%
+% Body text:
+% - Spectral (Regular), 10.75pt, leading ~1.35A-
+% Opus & section titles:
+% - Playfair Display (Medium)
+% =========================================================
+
+% Body font
+\IfFileExists{\TexGraphFontPath{Spectral-Regular.ttf}}{%
+  \setmainfont{Spectral-Regular.ttf}[
+    Path=\TexGraphFontDir,
+    Ligatures=TeX,
+    ItalicFont=Spectral-Italic.ttf,
+    BoldFont=Spectral-Bold.ttf,
+    BoldItalicFont=Spectral-BoldItalic.ttf
+  ]%
+}{%
+  \IfFontExistsTF{Spectral}{%
+    \setmainfont{Spectral}[Ligatures=TeX]%
+  }{%
+    \IfFontExistsTF{Source Serif 4}{%
+      \setmainfont{Source Serif 4}[Ligatures=TeX]%
+    }{%
+      \setmainfont{Latin Modern Roman}[Ligatures=TeX]%
+    }%
+  }%
+}%
+
+\AtBeginDocument{%
+  \fontsize{10.75pt}{14.5125pt}\selectfont
+}%
+
+% Opus/section title font
+\IfFileExists{\TexGraphFontPath{PlayfairDisplay-Medium.ttf}}{%
+  \newfontfamily\OpusTitleFont{PlayfairDisplay-Medium.ttf}[
+    Path=\TexGraphFontDir,
+    Ligatures=TeX,
+    LetterSpace=2
+  ]%
+}{%
+  \IfFontExistsTF{Playfair Display Medium}{%
+    \newfontfamily\OpusTitleFont{Playfair Display Medium}[Ligatures=TeX,LetterSpace=2]%
+  }{%
+    \IfFontExistsTF{Playfair Display}{%
+      \newfontfamily\OpusTitleFont{Playfair Display}[Ligatures=TeX,LetterSpace=2]%
+    }{%
+      \IfFileExists{\TexGraphFontPath{AlegreyaSC-Medium.ttf}}{%
+        \newfontfamily\OpusTitleFont{AlegreyaSC-Medium.ttf}[
+          Path=\TexGraphFontDir,
+          Ligatures=TeX,
+          Letters=SmallCaps,
+          LetterSpace=6
+        ]%
+      }{%
+        \IfFontExistsTF{Alegreya SC Medium}{%
+          \newfontfamily\OpusTitleFont{Alegreya SC Medium}[Ligatures=TeX,Letters=SmallCaps,LetterSpace=6]%
+        }{%
+          \newfontfamily\OpusTitleFont{Latin Modern Roman}[Ligatures=TeX,Letters=SmallCaps,LetterSpace=5]%
+        }%
+      }%
+    }%
+  }%
+}%
+
+\newcommand{\OpusName}[1]{{\OpusTitleFont #1}}
+\newcommand{\OpusSectionSubtitle}[1]{{\large\OpusTitleFont #1\par}}
+% Poem blocks: title small caps to outer margin, subtitle to inner margin.
+% Carré uses a dedicated SC family for poem titles (fallback-safe).
+\IfFileExists{\TexGraphFontPath{PlayfairDisplaySC-Regular.ttf}}{%
+  \newfontfamily\PoemTitleFont{PlayfairDisplaySC-Regular.ttf}[
+    Path=\TexGraphFontDir,
+    Ligatures=TeX,
+    Kerning=On,
+    LetterSpace=4
+  ]%
+}{%
+  \IfFontExistsTF{Playfair Display SC}{%
+    \newfontfamily\PoemTitleFont{Playfair Display SC}[Ligatures=TeX,Kerning=On,LetterSpace=4]%
+  }{%
+    \newfontfamily\PoemTitleFont{Latin Modern Roman}[Ligatures=TeX,Letters=SmallCaps,LetterSpace=4]%
+  }%
+}%
+\newcommand{\PoemSubtitleFont}{\itshape}
+
+\newcommand{\PoemHead}[2]{%
+  \par\begingroup
+    \TexGraphOuterLine{\TexGraphFitTitleText{{\PoemTitleFont #1}}}%
+    \if\relax\detokenize{#2}\relax\else
+      \TexGraphInnerLine{\TexGraphFitSubtitleText{{\PoemSubtitleFont #2}}}%
+    \fi
+  \endgroup
+  \vspace{0.75\baselineskip}%
+  \noindent
+}
+
+\newcommand{\CycleHead}[2]{%
+  \par\begingroup
+    \TexGraphOuterLine{\TexGraphFitTitleText{{\OpusName{#1}}}}%
+    \if\relax\detokenize{#2}\relax\else
+      \TexGraphInnerLine{\TexGraphFitSubtitleText{{\PoemSubtitleFont #2}}}%
+    \fi
+  \endgroup
+  \vspace{1.0\baselineskip}%
+  \noindent
+}
+
+\AtBeginEnvironment{stanza}{\raggedright}

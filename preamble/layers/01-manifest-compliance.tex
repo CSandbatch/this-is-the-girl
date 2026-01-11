@@ -1,0 +1,28 @@
+% =========================================================
+% LAYER 1 - PAGINATION
+% =========================================================
+% @layer: 1
+% @role: pagination
+% @depends_on: layer0
+% @aesthetic: none
+% @stability: stable
+%
+% PURPOSE:
+% Establish pagination discipline appropriate to verse-heavy
+% POD interiors. No geometry or structure here.
+% =========================================================
+
+\ifdefined\TexGraphDriver\else
+  \errmessage{This file is a preamble layer and must not be compiled directly. Compile the project driver.}%
+\fi
+
+\raggedbottom
+\flushbottom
+
+\pagenumbering{arabic}
+
+\clubpenalty=10000
+\widowpenalty=10000
+
+\pagestyle{plain}
+

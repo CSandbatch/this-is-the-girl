@@ -1,0 +1,23 @@
+{
+  "schema": "schema.section.v2",
+  "id": "ruin-op-iii",
+  "title": "Ruin",
+  "subtitle": "Op. III",
+  "items": [
+    "00-section-title/00-section-title.json",
+    "00-section-title-epigraph/00-section-title-epigraph.json",
+    "01-apologia/01-apologia.json",
+    "02-the-festival-is-over/02-the-festival-is-over.json",
+    "03-broken-sonnet/03-broken-sonnet.json",
+    "04-not-orpheus-i/04-not-orpheus-i.json",
+    "05-liberaciona/05-liberaciona.json",
+    "06-white-boy/06-white-boy.json",
+    "07-snow-leopard-memphis/07-snow-leopard-memphis.json",
+    "08-impossible/08-impossible.json",
+    "09-and-what-would-you-do/09-and-what-would-you-do.json",
+    "10-then-into-the-high-place/10-then-into-the-high-place.json",
+    "11-economic-decay-triptych/11-economic-decay-triptych.json",
+    "12-i-am-not-a-poet/12-i-am-not-a-poet.json",
+    "13-the-bird/13-the-bird.json"
+  ]
+}

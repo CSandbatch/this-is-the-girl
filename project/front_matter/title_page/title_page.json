@@ -1,0 +1,8 @@
+{
+  "schema": "schema.front_item.v1",
+  "type": "title_page",
+  "content": "",
+  "meta": {
+    "tex": "title_page.tex"
+  }
+}

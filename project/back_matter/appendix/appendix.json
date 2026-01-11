@@ -1,0 +1,8 @@
+{
+  "schema": "schema.back_item.v1",
+  "type": "appendix",
+  "content": "",
+  "meta": {
+    "tex": "appendix.tex"
+  }
+}

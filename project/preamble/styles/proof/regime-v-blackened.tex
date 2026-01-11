@@ -1,0 +1,99 @@
+% =========================================================
+% STYLE — PROOF / REGIME V (Blackened Baroque)
+% =========================================================
+% Source: styles/blackened.txt
+%
+% Body text:
+% - Cormorant Garamond (Regular), 10.75pt, leading ~1.4A-
+% Opus & section titles:
+% - Cinzel (Small caps), letterspacing +10
+% Poem titles:
+% - Cormorant Garamond Italic
+% =========================================================
+
+% Body font
+\IfFileExists{\TexGraphFontPath{CormorantGaramond-Regular.ttf}}{%
+  \setmainfont{CormorantGaramond-Regular.ttf}[
+    Path=\TexGraphFontDir,
+    Ligatures=TeX,
+    ItalicFont=CormorantGaramond-Italic.ttf,
+    BoldFont=CormorantGaramond-Bold.ttf,
+    BoldItalicFont=CormorantGaramond-BoldItalic.ttf
+  ]%
+}{%
+  \IfFontExistsTF{Cormorant Garamond}{%
+    \setmainfont{Cormorant Garamond}[Ligatures=TeX]%
+  }{%
+    \IfFontExistsTF{Source Serif 4}{%
+      \setmainfont{Source Serif 4}[Ligatures=TeX]%
+    }{%
+      \setmainfont{Latin Modern Roman}[Ligatures=TeX]%
+    }%
+  }%
+}%
+
+% Body size + leading (~1.4A-)
+\AtBeginDocument{%
+  \fontsize{10.75pt}{15.05pt}\selectfont
+}%
+
+% Opus/section title font
+\IfFileExists{\TexGraphFontPath{Cinzel-Regular.ttf}}{%
+  \newfontfamily\OpusTitleFont{Cinzel-Regular.ttf}[
+    Path=\TexGraphFontDir,
+    Ligatures=TeX,
+    Letters=SmallCaps,
+    LetterSpace=10
+  ]%
+}{%
+  \IfFontExistsTF{Cinzel}{%
+    \newfontfamily\OpusTitleFont{Cinzel}[Ligatures=TeX,Letters=SmallCaps,LetterSpace=10]%
+  }{%
+    \IfFileExists{\TexGraphFontPath{AlegreyaSC-Medium.ttf}}{%
+      \newfontfamily\OpusTitleFont{AlegreyaSC-Medium.ttf}[
+        Path=\TexGraphFontDir,
+        Ligatures=TeX,
+        Letters=SmallCaps,
+        LetterSpace=8
+      ]%
+    }{%
+      \IfFontExistsTF{Alegreya SC Medium}{%
+        \newfontfamily\OpusTitleFont{Alegreya SC Medium}[Ligatures=TeX,Letters=SmallCaps,LetterSpace=8]%
+      }{%
+        \newfontfamily\OpusTitleFont{Latin Modern Roman}[Ligatures=TeX,Letters=SmallCaps,LetterSpace=6]%
+      }%
+    }%
+  }%
+}%
+
+% Fragment-facing helpers (style-only).
+\newcommand{\OpusName}[1]{{\OpusTitleFont #1}}
+\newcommand{\OpusSectionSubtitle}[1]{{\large\OpusTitleFont #1\par}}
+% Poem blocks: title small caps to outer margin, subtitle to inner margin.
+\newcommand{\PoemTitleFont}{\OpusTitleFont}
+\newcommand{\PoemSubtitleFont}{\itshape}
+
+\newcommand{\PoemHead}[2]{%
+  \par\begingroup
+    \TexGraphOuterLine{\TexGraphFitTitleText{{\PoemTitleFont #1}}}%
+    \if\relax\detokenize{#2}\relax\else
+      \TexGraphInnerLine{\TexGraphFitSubtitleText{{\PoemSubtitleFont #2}}}%
+    \fi
+  \endgroup
+  \vspace{0.75\baselineskip}%
+  \noindent
+}
+
+\newcommand{\CycleHead}[2]{%
+  \par\begingroup
+    \TexGraphOuterLine{\TexGraphFitTitleText{{\OpusName{#1}}}}%
+    \if\relax\detokenize{#2}\relax\else
+      \TexGraphInnerLine{\TexGraphFitSubtitleText{{\PoemSubtitleFont #2}}}%
+    \fi
+  \endgroup
+  \vspace{1.0\baselineskip}%
+  \noindent
+}
+
+% Verse should not be fully justified.
+\AtBeginEnvironment{stanza}{\raggedright}

@@ -1,0 +1,29 @@
+{
+  "id": "economic-decay-triptych",
+  "title": "Economic Decay Triptych",
+  "subtitle": null,
+  "block_type": "multipartpoem",
+  "parent_section": "ruin-op-iii",
+  "ordering": "fixed",
+  "movement_count": 3,
+  "movements": [
+    {
+      "order": 1,
+      "path": "01-on-full-faith-and-credit",
+      "title": "On Full Faith and Credit",
+      "subtitle": "– after Re(e)vela(ua)tion and the SEC"
+    },
+    {
+      "order": 2,
+      "path": "02-yield-curve-y",
+      "title": "Yield Curve(y)",
+      "subtitle": "– with mallwalkers and PAWGs"
+    },
+    {
+      "order": 3,
+      "path": "03-divine-deterrent",
+      "title": "Divine Deterrent",
+      "subtitle": "– for a girl spinning in broadcast snow"
+    }
+  ]
+}

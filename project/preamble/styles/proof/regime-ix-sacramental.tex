@@ -1,0 +1,129 @@
+% =========================================================
+% STYLE — PROOF / REGIME IX (High Baroque / Sacramental Overload)
+% =========================================================
+% Source: styles/sacramental.txt
+%
+% Body text:
+% - Cormorant Infant (Regular), 11pt, leading ~1.45A-
+% Opus & section titles:
+% - Cinzel Decorative (Small caps), letterspacing +14
+% =========================================================
+
+\IfFileExists{\TexGraphFontPath{CormorantInfant-Regular.ttf}}{%
+  \setmainfont{CormorantInfant-Regular.ttf}[
+    Path=\TexGraphFontDir,
+    Ligatures=TeX,
+    ItalicFont=CormorantInfant-Italic.ttf,
+    BoldFont=CormorantInfant-Bold.ttf,
+    BoldItalicFont=CormorantInfant-BoldItalic.ttf
+  ]%
+}{%
+  \IfFontExistsTF{Cormorant Infant}{%
+    \setmainfont{Cormorant Infant}[Ligatures=TeX]%
+  }{%
+    \IfFileExists{\TexGraphFontPath{CormorantGaramond-Regular.ttf}}{%
+      \setmainfont{CormorantGaramond-Regular.ttf}[
+        Path=\TexGraphFontDir,
+        Ligatures=TeX,
+        ItalicFont=CormorantGaramond-Italic.ttf,
+        BoldFont=CormorantGaramond-Bold.ttf,
+        BoldItalicFont=CormorantGaramond-BoldItalic.ttf
+      ]%
+    }{%
+      \IfFontExistsTF{Cormorant Garamond}{%
+        \setmainfont{Cormorant Garamond}[Ligatures=TeX]%
+      }{%
+        \IfFileExists{\TexGraphFontPath{SourceSerif4-Regular.ttf}}{%
+          \setmainfont{SourceSerif4-Regular.ttf}[
+            Path=\TexGraphFontDir,
+            Ligatures=TeX,
+            ItalicFont=SourceSerif4-Italic.ttf,
+            BoldFont=SourceSerif4-Bold.ttf,
+            BoldItalicFont=SourceSerif4-BoldItalic.ttf
+          ]%
+        }{%
+          \IfFontExistsTF{Source Serif 4}{%
+            \setmainfont{Source Serif 4}[Ligatures=TeX]%
+          }{%
+            \setmainfont{Latin Modern Roman}[Ligatures=TeX]%
+          }%
+        }%
+      }%
+    }%
+  }%
+}%
+
+\AtBeginDocument{%
+  \fontsize{11pt}{15.95pt}\selectfont
+}%
+
+\IfFileExists{\TexGraphFontPath{CinzelDecorative-Regular.ttf}}{%
+  \newfontfamily\OpusTitleFont{CinzelDecorative-Regular.ttf}[
+    Path=\TexGraphFontDir,
+    Ligatures=TeX,
+    Letters=SmallCaps,
+    LetterSpace=14
+  ]%
+}{%
+  \IfFontExistsTF{Cinzel Decorative}{%
+    \newfontfamily\OpusTitleFont{Cinzel Decorative}[Ligatures=TeX,Letters=SmallCaps,LetterSpace=14]%
+  }{%
+    \IfFileExists{\TexGraphFontPath{Cinzel-Regular.ttf}}{%
+      \newfontfamily\OpusTitleFont{Cinzel-Regular.ttf}[
+        Path=\TexGraphFontDir,
+        Ligatures=TeX,
+        Letters=SmallCaps,
+        LetterSpace=12
+      ]%
+    }{%
+      \IfFontExistsTF{Cinzel}{%
+        \newfontfamily\OpusTitleFont{Cinzel}[Ligatures=TeX,Letters=SmallCaps,LetterSpace=12]%
+      }{%
+        \IfFileExists{\TexGraphFontPath{AlegreyaSC-Medium.ttf}}{%
+          \newfontfamily\OpusTitleFont{AlegreyaSC-Medium.ttf}[
+            Path=\TexGraphFontDir,
+            Ligatures=TeX,
+            Letters=SmallCaps,
+            LetterSpace=10
+          ]%
+        }{%
+          \IfFontExistsTF{Alegreya SC Medium}{%
+            \newfontfamily\OpusTitleFont{Alegreya SC Medium}[Ligatures=TeX,Letters=SmallCaps,LetterSpace=10]%
+          }{%
+            \newfontfamily\OpusTitleFont{Latin Modern Roman}[Ligatures=TeX,Letters=SmallCaps,LetterSpace=10]%
+          }%
+        }%
+      }%
+    }%
+  }%
+}%
+
+\newcommand{\OpusName}[1]{{\OpusTitleFont #1}}
+\newcommand{\OpusSectionSubtitle}[1]{{\large\OpusTitleFont #1\par}}
+% Poem blocks: title small caps to outer margin, subtitle to inner margin.
+\newcommand{\PoemTitleFont}{\OpusTitleFont}
+\newcommand{\PoemSubtitleFont}{\itshape}
+
+\newcommand{\PoemHead}[2]{%
+  \par\begingroup
+    \TexGraphOuterLine{\TexGraphFitTitleText{{\PoemTitleFont #1}}}%
+    \if\relax\detokenize{#2}\relax\else
+      \TexGraphInnerLine{\TexGraphFitSubtitleText{{\PoemSubtitleFont #2}}}%
+    \fi
+  \endgroup
+  \vspace{0.75\baselineskip}%
+  \noindent
+}
+
+\newcommand{\CycleHead}[2]{%
+  \par\begingroup
+    \TexGraphOuterLine{\TexGraphFitTitleText{{\OpusName{#1}}}}%
+    \if\relax\detokenize{#2}\relax\else
+      \TexGraphInnerLine{\TexGraphFitSubtitleText{{\PoemSubtitleFont #2}}}%
+    \fi
+  \endgroup
+  \vspace{1.0\baselineskip}%
+  \noindent
+}
+
+\AtBeginEnvironment{stanza}{\raggedright}

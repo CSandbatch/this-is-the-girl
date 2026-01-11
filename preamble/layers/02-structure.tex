@@ -1,0 +1,196 @@
+% =========================================================
+% LAYER 2 - STRUCTURE NODES (RECTO-AWARE)
+% =========================================================
+% @layer: 2
+% @role: structure
+% @depends_on: layer0, layer1
+% @aesthetic: none
+% @stability: stable
+%
+% PURPOSE:
+% Define structural entry nodes (opus, body items) and
+% enforce recto starts for all major divisions.
+% =========================================================
+
+\ifdefined\TexGraphDriver\else
+  \errmessage{This file is a preamble layer and must not be compiled directly. Compile the project driver.}%
+\fi
+
+\makeatletter
+
+% ---------------- Recto-clear primitive ----------------
+\newcommand{\RectoClear}{%
+  \clearpage
+  \if@twoside
+    \ifodd\value{page}\else
+      \hbox{}%
+      \thispagestyle{empty}%
+      \newpage
+    \fi
+  \fi
+}
+
+% ---------------- Section-title spread control ----------------
+% Ensures each section title begins on a recto page and is preceded by a blank
+% verso page. If the preceding section ended on verso, this will insert an
+% additional blank recto page so that a blank verso can precede the title.
+\newcommand{\SectionTitleClear}{%
+  \clearpage
+  \if@twoside
+    % If we're at an odd page now, the previous page was even (verso). Insert a
+    % blank recto so the title can still be preceded by a blank verso.
+    \ifodd\value{page}%
+      \thispagestyle{empty}\hbox{}%
+      \newpage
+    \fi
+    % Now we're on an even page: ship a blank verso and advance to recto.
+    \thispagestyle{empty}\hbox{}%
+    \newpage
+  \fi
+}
+
+% ---------------- Inner/outer margin alignment helpers ----------------
+% Outer margin: right on odd pages, left on even pages (twoside).
+% Inner margin: left on odd pages, right on even pages (twoside).
+\newcommand{\TexGraphOuterLine}[1]{%
+  \noindent
+  \if@twoside
+    \ifodd\value{page}%
+      \hfill\mbox{#1}%
+    \else
+      \mbox{#1}\hfill%
+    \fi
+  \else
+    \hfill\mbox{#1}%
+  \fi
+  \par
+}
+
+\newcommand{\TexGraphInnerLine}[1]{%
+  \noindent
+  \if@twoside
+    \ifodd\value{page}%
+      \mbox{#1}\hfill%
+    \else
+      \hfill\mbox{#1}%
+    \fi
+  \else
+    \mbox{#1}\hfill%
+  \fi
+  \par
+}
+
+% ---------------- Fit-to-measure helpers (single-line headings) ----------------
+% These choose the largest size from a ladder that fits within \linewidth.
+\newcommand{\TexGraphFitTitleText}[1]{%
+  \begingroup
+    \setbox0=\hbox{{\Large #1}}%
+    \ifdim\wd0>\linewidth
+      \setbox0=\hbox{{\large #1}}%
+      \ifdim\wd0>\linewidth
+        \setbox0=\hbox{{\normalsize #1}}%
+        \ifdim\wd0>\linewidth
+          \setbox0=\hbox{{\small #1}}%
+        \fi
+      \fi
+    \fi
+    \box0
+  \endgroup
+}
+
+\newcommand{\TexGraphFitSubtitleText}[1]{%
+  \begingroup
+    \setbox0=\hbox{{\normalsize #1}}%
+    \ifdim\wd0>\linewidth
+      \setbox0=\hbox{{\small #1}}%
+      \ifdim\wd0>\linewidth
+        \setbox0=\hbox{{\footnotesize #1}}%
+        \ifdim\wd0>\linewidth
+          \setbox0=\hbox{{\scriptsize #1}}%
+        \fi
+      \fi
+    \fi
+    \box0
+  \endgroup
+}
+
+% ---------------- Matter transitions begin recto ----------------
+% Use a single, continuous page numbering scheme (no roman front-matter, no
+% reset at \mainmatter). Keep \@mainmatter toggles for class semantics.
+\renewcommand{\frontmatter}{%
+  \RectoClear
+  \@mainmatterfalse
+}
+
+\renewcommand{\mainmatter}{%
+  \RectoClear
+  \@mainmattertrue
+}
+
+\renewcommand{\backmatter}{%
+  \RectoClear
+  \@mainmatterfalse
+}
+
+\makeatother
+
+% ---------------- Body item wrapper ----------------
+% Items start on a new page, but do not force recto (avoids blank pages).
+\newcommand{\BodyItem}[1]{%
+  \clearpage
+  \input{#1}%
+}
+
+% ---------------- Prose poem helpers (semantic, style-overrideable) ----------------
+% Styles may override these to tune spacing/indentation, but the project should
+% compile even when prose poems use these helpers.
+\providecommand{\ProsePoemHead}[2]{\PoemHead{#1}{#2}}
+\providecommand{\ProseInsetLines}[1]{%
+  \par
+  \begingroup
+    \leftskip=2em
+    \rightskip=2em
+    \parindent=0pt
+    \parskip=0pt
+    \obeylines
+    #1\par
+  \endgroup
+  \par
+}
+
+% ---------------- Cycle movement paging ----------------
+% After a cycle's title block, movement 1 continues on the same page.
+% Movements 2+ begin on their own pages.
+\newif\ifTexGraphFirstMovement
+\newcommand{\CycleBegin}{\TexGraphFirstMovementtrue}
+\newcommand{\CycleMovement}[1]{%
+  \ifTexGraphFirstMovement
+    \TexGraphFirstMovementfalse
+  \else
+    \clearpage
+  \fi
+  \input{#1}%
+}
+
+% ---------------- Opus node ----------------
+\newcounter{TexGraphOpus}
+\renewcommand{\theTexGraphOpus}{\Roman{TexGraphOpus}}
+
+\newcommand{\TexGraphCurrentOpusId}{}
+\newcommand{\TexGraphCurrentOpusTitle}{}
+
+\newcommand{\TexGraphSetOpusMeta}[2]{%
+  \gdef\TexGraphCurrentOpusId{#1}%
+  \gdef\TexGraphCurrentOpusTitle{#2}%
+  \markboth{#2}{#2}%
+}
+
+% \Opus{<id>}{<title>}{<entry-file>}{<body>}
+\newcommand{\Opus}[4]{%
+  \SectionTitleClear
+  \refstepcounter{TexGraphOpus}%
+  \TexGraphSetOpusMeta{#1}{#2}%
+  \label{op:#1}%
+  \input{#3}%
+  #4%
+}

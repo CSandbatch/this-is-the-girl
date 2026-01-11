@@ -1,0 +1,107 @@
+% =========================================================
+% STYLE — PROOF / REGIME IV
+% =========================================================
+% Contemporary Score / Musical Logic
+%
+% Body text:
+% - Source Serif 4 (Regular), 10.75pt, leading 1.35A-
+% Italics:
+% - Source Serif 4 (Italic)
+% Opus & section titles:
+% - Alegreya SC Medium, small caps, letterspacing +5
+% Poem titles:
+% - Source Serif 4 Italic
+% =========================================================
+
+% Prefer local font cache (project/fonts/google) when available.
+% Body font (Source Serif 4 preferred; fall back safely).
+\IfFileExists{\TexGraphFontPath{SourceSerif4-Regular.ttf}}{%
+  \setmainfont{SourceSerif4-Regular.ttf}[
+    Path=\TexGraphFontDir,
+    Ligatures=TeX,
+    ItalicFont=SourceSerif4-Italic.ttf,
+    BoldFont=SourceSerif4-Bold.ttf,
+    BoldItalicFont=SourceSerif4-BoldItalic.ttf,
+    AutoFakeSlant=0.2,
+    AutoFakeBold=2
+  ]%
+}{%
+  \IfFontExistsTF{Source Serif 4}{%
+    \setmainfont{Source Serif 4}[
+      Ligatures=TeX,
+      AutoFakeSlant=0.2,
+      AutoFakeBold=2
+    ]%
+  }{%
+    \setmainfont{Latin Modern Roman}[Ligatures=TeX]%
+  }%
+}%
+
+% Body size + leading (1.35A-)
+\AtBeginDocument{%
+  \fontsize{10.75pt}{14.5125pt}\selectfont
+}%
+
+% Opus/section title font (Alegreya SC Medium preferred).
+\IfFileExists{\TexGraphFontPath{AlegreyaSC-Medium.ttf}}{%
+  \newfontfamily\OpusTitleFont{AlegreyaSC-Medium.ttf}[
+    Path=\TexGraphFontDir,
+    Ligatures=TeX,
+    Letters=SmallCaps,
+    LetterSpace=5
+  ]%
+}{%
+  \IfFontExistsTF{Alegreya SC Medium}{%
+    \newfontfamily\OpusTitleFont{Alegreya SC Medium}[
+      Ligatures=TeX,
+      Letters=SmallCaps,
+      LetterSpace=5
+    ]%
+  }{%
+    \IfFontExistsTF{Alegreya SC}{%
+      \newfontfamily\OpusTitleFont{Alegreya SC}[
+        Ligatures=TeX,
+        Letters=SmallCaps,
+        LetterSpace=5
+      ]%
+    }{%
+      \newfontfamily\OpusTitleFont{Latin Modern Roman}[
+        Ligatures=TeX,
+        Letters=SmallCaps,
+        LetterSpace=5
+      ]%
+    }%
+  }%
+}%
+
+% Fragment-facing helpers (style-only).
+\newcommand{\OpusName}[1]{{\OpusTitleFont #1}}
+\newcommand{\OpusSectionSubtitle}[1]{{\large\OpusTitleFont #1\par}}
+% Poem blocks: title small caps to outer margin, subtitle to inner margin.
+\newcommand{\PoemTitleFont}{\OpusTitleFont}
+\newcommand{\PoemSubtitleFont}{\itshape}
+
+\newcommand{\PoemHead}[2]{%
+  \par\begingroup
+    \TexGraphOuterLine{\TexGraphFitTitleText{{\PoemTitleFont #1}}}%
+    \if\relax\detokenize{#2}\relax\else
+      \TexGraphInnerLine{\TexGraphFitSubtitleText{{\PoemSubtitleFont #2}}}%
+    \fi
+  \endgroup
+  \vspace{0.75\baselineskip}%
+  \noindent
+}
+
+\newcommand{\CycleHead}[2]{%
+  \par\begingroup
+    \TexGraphOuterLine{\TexGraphFitTitleText{{\OpusName{#1}}}}%
+    \if\relax\detokenize{#2}\relax\else
+      \TexGraphInnerLine{\TexGraphFitSubtitleText{{\PoemSubtitleFont #2}}}%
+    \fi
+  \endgroup
+  \vspace{1.0\baselineskip}%
+  \noindent
+}
+
+% Verse should not be fully justified (avoids stretched interword spacing).
+\AtBeginEnvironment{stanza}{\raggedright}

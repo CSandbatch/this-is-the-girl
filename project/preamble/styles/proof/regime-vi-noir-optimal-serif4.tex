@@ -1,0 +1,182 @@
+% =========================================================
+% STYLE — PROOF / REGIME VI (Noir) — OPTIMAL — SERIF 4
+% =========================================================
+% Variant: identical to Noir Optimal, but with Source Serif 4 as body font.
+% =========================================================
+
+\usepackage{eso-pic}
+
+% ---------------- Body font ----------------
+\IfFileExists{\TexGraphFontPath{SourceSerif4-Regular.ttf}}{%
+  \setmainfont{SourceSerif4-Regular.ttf}[
+    Path=\TexGraphFontDir,
+    Ligatures=TeX,
+    Kerning=On,
+    Numbers=OldStyle,
+    ItalicFont=SourceSerif4-Italic.ttf,
+    BoldFont=SourceSerif4-Bold.ttf,
+    BoldItalicFont=SourceSerif4-BoldItalic.ttf
+  ]%
+}{%
+  \IfFontExistsTF{Source Serif 4}{%
+    \setmainfont{Source Serif 4}[Ligatures=TeX,Kerning=On,Numbers=OldStyle]%
+  }{%
+    \setmainfont{Latin Modern Roman}[Ligatures=TeX]%
+  }%
+}%
+
+% ---------------- Body size + leading ----------------
+\AtBeginDocument{%
+  \fontsize{11pt}{15.0pt}\selectfont
+  \setlength{\emergencystretch}{1.5em}%
+  \microtypesetup{protrusion=true,expansion=true}%
+}%
+
+% ---------------- Opus/section title font ----------------
+\IfFileExists{\TexGraphFontPath{IMFellEnglishSC-Regular.ttf}}{%
+  \newfontfamily\OpusTitleFont{IMFellEnglishSC-Regular.ttf}[
+    Path=\TexGraphFontDir,
+    Ligatures=TeX,
+    Kerning=On,
+    LetterSpace=6
+  ]%
+}{%
+  \IfFontExistsTF{IM Fell English SC}{%
+    \newfontfamily\OpusTitleFont{IM Fell English SC}[Ligatures=TeX,Kerning=On,LetterSpace=6]%
+  }{%
+    \IfFileExists{\TexGraphFontPath{AlegreyaSC-Medium.ttf}}{%
+      \newfontfamily\OpusTitleFont{AlegreyaSC-Medium.ttf}[
+        Path=\TexGraphFontDir,
+        Ligatures=TeX,
+        Kerning=On,
+        Letters=SmallCaps,
+        LetterSpace=6
+      ]%
+    }{%
+      \newfontfamily\OpusTitleFont{Latin Modern Roman}[Ligatures=TeX,Letters=SmallCaps,LetterSpace=5]%
+    }%
+  }%
+}%
+
+% ---------------- Fragment-facing helpers (style-only) ----------------
+\newcommand{\OpusName}[1]{{\OpusTitleFont\addfontfeatures{FakeBold=1.8} #1}}
+\newcommand{\OpusSectionSubtitle}[1]{{\large\OpusTitleFont #1\par}}
+
+% Poem blocks: title small caps to outer margin, subtitle to inner margin.
+\newcommand{\PoemTitleFont}{\OpusTitleFont\addfontfeatures{FakeBold=1.8}}
+\newcommand{\PoemSubtitleFont}{\OpusTitleFont\itshape\addfontfeatures{FakeBold=1.2,FakeSlant=0.2}}
+
+% Ensure subtitle text is set at the current body size (not class \normalsize).
+\renewcommand{\TexGraphFitSubtitleText}[1]{%
+  \begingroup
+    \setbox0=\hbox{{#1}}%
+    \ifdim\wd0>\linewidth
+      \setbox0=\hbox{{\small #1}}%
+      \ifdim\wd0>\linewidth
+        \setbox0=\hbox{{\footnotesize #1}}%
+        \ifdim\wd0>\linewidth
+          \setbox0=\hbox{{\scriptsize #1}}%
+        \fi
+      \fi
+    \fi
+    \box0
+  \endgroup
+}
+
+\newcommand{\PoemHead}[2]{%
+  \par\begingroup
+    \TexGraphOuterLine{\TexGraphFitTitleText{{\PoemTitleFont #1}}}%
+    \if\relax\detokenize{#2}\relax\else
+      \vspace{0.5\baselineskip}%
+      \TexGraphInnerLine{\TexGraphFitSubtitleText{{\PoemSubtitleFont #2}}}%
+    \fi
+  \endgroup
+  \vspace{2.5\baselineskip}%
+  \noindent
+}
+
+\newcommand{\CyclePartHead}[1]{%
+  \par\vspace{2\baselineskip}%
+  \begingroup
+    \TexGraphOuterLine{\TexGraphFitTitleText{{\PoemTitleFont #1}}}%
+  \endgroup
+  \vspace{1.25\baselineskip}%
+  \noindent
+}
+
+\newcommand{\CyclePartHeadTight}[1]{%
+  \par\begingroup
+    \TexGraphOuterLine{\TexGraphFitTitleText{{\PoemTitleFont #1}}}%
+  \endgroup
+  \vspace{0.75\baselineskip}%
+  \noindent
+}
+
+\newcommand{\CycleInterMovementSpace}{\par\vspace{1.0\baselineskip}}
+
+\newcommand{\CycleHead}[2]{%
+  \par\begingroup
+    \TexGraphOuterLine{\TexGraphFitTitleText{{\OpusName{#1}}}}%
+    \if\relax\detokenize{#2}\relax\else
+      \vspace{0.5\baselineskip}%
+      \TexGraphInnerLine{\TexGraphFitSubtitleText{{\PoemSubtitleFont #2}}}%
+    \fi
+  \endgroup
+  \vspace{2.0\baselineskip}%
+  \noindent
+}
+
+% ---------------- Distressed text helper ----------------
+\newcommand{\DistressedText}{%
+  \addfontfeatures{
+    LetterSpace=2,
+    FakeStretch=0.98
+  }%
+}
+
+% Verse should not be fully justified.
+\AtBeginEnvironment{stanza}{\raggedright}
+
+% ---------------- Proof helper: recto/verso labels ----------------
+% Places a small label at the top of each page without changing geometry.
+\AddToShipoutPictureFG{%
+  \AtPageUpperLeft{%
+    \raisebox{-18pt}[0pt][0pt]{%
+      \makebox[\paperwidth][c]{%
+        \footnotesize\scshape
+        \ifodd\value{page} RECTO\else VERSO\fi
+      }%
+    }%
+  }%
+}
+
+% =========================================================
+% ADDITIONS — PROSE POEM SUPPORT (NON-DESTRUCTIVE)
+% =========================================================
+
+% ---------------- Prose poem title ----------------
+\renewcommand{\ProsePoemHead}[2]{%
+  \par\begingroup
+    \TexGraphOuterLine{\TexGraphFitTitleText{{\PoemTitleFont #1}}}%
+    \if\relax\detokenize{#2}\relax\else
+      \vspace{0.5\baselineskip}%
+      \TexGraphInnerLine{\TexGraphFitSubtitleText{{\PoemSubtitleFont #2}}}%
+    \fi
+  \endgroup
+  \vspace{2.5\baselineskip}%
+  \noindent
+}
+
+% ---------------- Prose inset block (lineated) ----------------
+\renewcommand{\ProseInsetLines}[1]{%
+  \par
+  \begingroup
+    \leftskip=2em
+    \rightskip=2em
+    \parindent=0pt
+    \parskip=0pt
+    \obeylines
+    #1\par
+  \endgroup
+  \par
+}

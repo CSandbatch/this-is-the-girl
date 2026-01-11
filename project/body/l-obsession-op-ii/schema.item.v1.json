@@ -1,0 +1,157 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://example.invalid/les-humeurs/schema.item.v1.json",
+  "title": "Body Item Manifest (v1)",
+  "description": "Schema for per-item manifests under `body/<section>/<item>/`. This file validates three related manifest shapes: leaf items, container items, and container movements.",
+  "$comment": "Rationale: a single schema file makes it easy to validate an entire decisions tree without guessing which manifest type a JSON file is. Discrimination happens via `block_type` and the presence of `parent_cycle`.",
+  "oneOf": [
+    { "$ref": "#/$defs/leaf" },
+    { "$ref": "#/$defs/container" },
+    { "$ref": "#/$defs/movement" }
+  ],
+  "$defs": {
+    "leaf": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["title", "subtitle", "block_type", "parent_section", "order"],
+      "properties": {
+        "title": {
+          "type": "string",
+          "description": "Human-facing title for the content unit.",
+          "examples": ["Erato", "We Tell Ourselves Stories"]
+        },
+        "subtitle": {
+          "type": ["string", "null"],
+          "description": "Optional subtitle.",
+          "examples": [null, "(Roundel Mutations, an interlude in B Flat Minor)"]
+        },
+        "block_type": {
+          "type": "string",
+          "not": { "enum": ["section", "cycle", "multipartpoem"] },
+          "description": "Leaf block type. This is deliberately open-ended (e.g. `poem`, `prosepoem`) but must NOT be a container or `section`.",
+          "examples": ["poem", "prosepoem"]
+        },
+        "parent_section": {
+          "type": "string",
+          "minLength": 1,
+          "description": "The owning section id (must match the section manifest `id`).",
+          "examples": ["desir-op-iv"]
+        },
+        "order": {
+          "type": "integer",
+          "minimum": 1,
+          "description": "1-based order of this leaf within the parent section. Should match the section manifest's `contents[].order` for the same `path`.",
+          "examples": [1, 6, 13]
+        }
+      }
+    },
+    "container": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "id",
+        "title",
+        "subtitle",
+        "block_type",
+        "parent_section",
+        "ordering",
+        "movement_count",
+        "movements"
+      ],
+      "properties": {
+        "id": {
+          "type": "string",
+          "minLength": 1,
+          "description": "Stable identifier for the container, used by movements as `parent_cycle` (typically slugified from the title).",
+          "examples": ["then-into-the-high-place", "economic-decay-triptych"]
+        },
+        "title": {
+          "type": "string",
+          "minLength": 1,
+          "description": "Human-facing title for the container."
+        },
+        "subtitle": {
+          "type": ["string", "null"],
+          "description": "Optional container subtitle."
+        },
+        "block_type": {
+          "enum": ["cycle", "multipartpoem"],
+          "description": "Container kind. Both use the same `movements[]` structure; `multipartpoem` exists to preserve authorial intent even when structurally identical to `cycle`."
+        },
+        "parent_section": {
+          "type": "string",
+          "minLength": 1,
+          "description": "Owning section id (must match the section manifest `id`)."
+        },
+        "ordering": {
+          "const": "fixed",
+          "description": "Declares movement ordering is explicit; do not infer ordering from filenames."
+        },
+        "movement_count": {
+          "type": "integer",
+          "minimum": 1,
+          "description": "Declared number of movements; should equal `movements.length`."
+        },
+        "movements": {
+          "type": "array",
+          "minItems": 1,
+          "description": "Ordered list of movement subfolders. Each `path` must match a real directory name under the container folder.",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": ["order", "path", "title", "subtitle"],
+            "properties": {
+              "order": {
+                "type": "integer",
+                "minimum": 1,
+                "description": "1-based ordering of the movement within the container. Should be unique within `movements`."
+              },
+              "path": {
+                "type": "string",
+                "minLength": 1,
+                "description": "Directory name of the movement folder (relative to the container folder)."
+              },
+              "title": {
+                "type": "string",
+                "description": "Movement title, e.g. `I` or `I. Hearth`."
+              },
+              "subtitle": {
+                "type": ["string", "null"],
+                "description": "Optional movement subtitle, when present in source."
+              }
+            }
+          }
+        }
+      }
+    },
+    "movement": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["title", "subtitle", "block_type", "parent_cycle", "movement_order"],
+      "properties": {
+        "title": {
+          "type": "string",
+          "description": "Movement title (as listed in the container manifest)."
+        },
+        "subtitle": {
+          "type": ["string", "null"],
+          "description": "Optional movement subtitle."
+        },
+        "block_type": {
+          "const": "poem",
+          "description": "Movements are treated as poems regardless of container kind."
+        },
+        "parent_cycle": {
+          "type": "string",
+          "minLength": 1,
+          "description": "Container id (must match container manifest `id`)."
+        },
+        "movement_order": {
+          "type": "integer",
+          "minimum": 1,
+          "description": "1-based order of this movement within the container; should match the container manifest's `movements[].order` for the same `path`."
+        }
+      }
+    }
+  }
+}

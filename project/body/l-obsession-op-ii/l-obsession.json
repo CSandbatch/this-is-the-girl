@@ -1,0 +1,54 @@
+{
+  "id": "l-obsession-op-ii",
+  "title": "L’Obsession",
+  "subtitle": "Op. II",
+  "block_type": "section",
+  "ordering": "fixed",
+  "contents": [
+    {
+      "order": 1,
+      "type": "section_title_page",
+      "path": "00-section-title"
+    },
+    {
+      "order": 2,
+      "type": "section_epigraph_page",
+      "path": "00-section-title-epigraph"
+    },
+    {
+      "order": 3,
+      "type": "poem",
+      "path": "01-apologia"
+    },
+    {
+      "order": 4,
+      "type": "poem",
+      "path": "02-we-tell-ourselves-stories"
+    },
+    {
+      "order": 5,
+      "type": "cycle",
+      "path": "04-variations-on-a-natural-woman"
+    },
+    {
+      "order": 6,
+      "type": "poem",
+      "path": "04b-quartet-for-two-in-a-minor-key"
+    },
+    {
+      "order": 7,
+      "type": "poem",
+      "path": "05-erato"
+    },
+    {
+      "order": 8,
+      "type": "poem",
+      "path": "06-let-the-flower-bleed"
+    },
+    {
+      "order": 9,
+      "type": "poem",
+      "path": "07-rotflower-rotflower"
+    }
+  ]
+}

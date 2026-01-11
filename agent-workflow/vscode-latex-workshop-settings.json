@@ -1,0 +1,14 @@
+{
+  "latex-workshop.latex.recipes": [
+    { "name": "latexmk (lualatex)", "tools": ["latexmk-lualatex"] }
+  ],
+  "latex-workshop.latex.tools": [
+    {
+      "name": "latexmk-lualatex",
+      "command": "latexmk",
+      "args": ["-pdflua", "-interaction=nonstopmode", "-halt-on-error", "%DOC%"]
+    }
+  ],
+  "latex-workshop.latex.recipe.default": "latexmk (lualatex)"
+}
+

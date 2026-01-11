@@ -1,0 +1,13 @@
+% Project preamble layer (wrapper): Structure
+% Inputs the repo-root preamble template.
+
+\IfFileExists{../preamble/layers/02-structure.tex}{%
+  \input{../preamble/layers/02-structure.tex}%
+}{%
+  \IfFileExists{../../preamble/layers/02-structure.tex}{%
+    \input{../../preamble/layers/02-structure.tex}%
+  }{%
+    \errmessage{Cannot locate repo-root preamble layer: preamble/layers/02-structure.tex}%
+  }%
+}%
+

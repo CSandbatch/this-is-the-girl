@@ -1,0 +1,20 @@
+{
+  "schema": "schema.section.v2",
+  "id": "desir-op-iv",
+  "title": "Desir",
+  "subtitle": "Op. IV",
+  "items": [
+    "00-section-title/00-section-title.json",
+    "00-section-title-epigraph/00-section-title-epigraph.json",
+    "01-apologia-prose/01-apologia-prose.json",
+    "02-lilies-of-the-morning/02-lilies-of-the-morning.json",
+    "03-song-for-the-stranger/03-song-for-the-stranger.json",
+    "04-letter-lost/04-letter-lost.json",
+    "05-spring-question/05-spring-question.json",
+    "06-comfort-is-plenty/06-comfort-is-plenty.json",
+    "07-graveyard-lesson/07-graveyard-lesson.json",
+    "08-kindness-returns-downriver/08-kindness-returns-downriver.json",
+    "09-chiaroscuro/09-chiaroscuro.json",
+    "10-to-the-sea/10-to-the-sea.json"
+  ]
+}
